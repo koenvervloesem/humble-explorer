@@ -30,15 +30,27 @@
 |
 
 ===============
-humble_explorer
+HumBLE Explorer
 ===============
 
 
-    Add a short description here!
+    Human-friendly Bluetooth Low Energy Explorer
 
 
-A longer description of your project goes here...
+This is a cross-platform (Windows, Linux, macOS) human-friendly program to scan for Bluetooth Low Energy (BLE) advertisements on the command line. It's mostly useful for people who develop BLE software or want to debug problems with BLE devices.
 
+.. image:: screenshot.png
+    :alt: Human-friendly Bluetooth Low Energy Explorer in action
+
+Installation
+============
+
+    pip install humble-explorer
+
+Usage
+=====
+
+    humble-explorer --help
 
 .. _pyscaffold-notes:
 
@@ -60,8 +72,28 @@ Don't forget to tell your contributors to also install and use pre-commit.
 
 .. _pre-commit: https://pre-commit.com/
 
+Debugging code
+==============
+
+You can debug HumBLE Explorer with Textual's debug console.
+
+To use the console, open up **two** terminal emulators. Run the following in one of the terminals::
+
+    textual console
+
+You should see the Textual devtools welcome message.
+
+In the other console, run HumBLE Explorer with::
+
+    TEXTUAL=devtools python3 src/humble_explorer/__main__.py
+
 Note
 ====
 
 This project has been set up using PyScaffold 4.3.1. For details and usage
 information on PyScaffold see https://pyscaffold.org/.
+
+License
+=======
+
+This project is provided by Koen Vervloesem as open source software with the MIT license. See the `LICENSE.txt`_ file for more information.
