@@ -1,9 +1,15 @@
+.. image:: https://github.com/koenvervloesem/humble-explorer/workflows/Tests/badge.svg
+    :alt: Continuous Integration
+    :target: https://github.com/koenvervloesem/humble-explorer/actions
 .. image:: https://img.shields.io/pypi/v/humble-explorer.svg
-    :alt: PyPI-Server
+    :alt: Python package version
     :target: https://pypi.org/project/humble-explorer/
-.. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
-    :alt: Project generated with PyScaffold
-    :target: https://pyscaffold.org/
+.. image:: https://img.shields.io/pypi/pyversions/humble-explorer.svg
+    :alt: Supported Python versions
+    :target: https://python.org/
+.. image:: https://img.shields.io/github/license/koenvervloesem/humble-explorer.svg
+    :alt: License
+    :target: https://github.com/koenvervloesem/ble-explorer/blob/main/LICENSE.txt
 
 |
 
@@ -17,7 +23,7 @@ HumBLE Explorer
 
 This is a cross-platform (Windows, Linux, macOS) human-friendly program to scan for Bluetooth Low Energy (BLE) advertisements on the command line. It's mostly useful for people who develop BLE software or want to debug problems with BLE devices.
 
-.. image:: /_static/screenshot.png
+.. image:: https://raw.githubusercontent.com/koenvervloesem/humble-explorer/main/docs/_static/screenshot.png
     :alt: Human-friendly Bluetooth Low Energy Explorer in action
 
 Installation
