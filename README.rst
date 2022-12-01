@@ -1,4 +1,4 @@
-.. image:: https://github.com/koenvervloesem/humble-explorer/workflows/Tests/badge.svg
+.. image:: https://github.com/koenvervloesem/humble-explorer/workflows/tests/badge.svg
     :alt: Continuous Integration
     :target: https://github.com/koenvervloesem/humble-explorer/actions
 .. image:: https://img.shields.io/pypi/v/humble-explorer.svg
