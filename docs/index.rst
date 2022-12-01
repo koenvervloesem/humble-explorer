@@ -1,8 +1,8 @@
 ===============
-humble_explorer
+HumBLE Explorer
 ===============
 
-This is the documentation of **humble_explorer**.
+This is the documentation of **HumBLE Explorer**.
 
 .. note::
 

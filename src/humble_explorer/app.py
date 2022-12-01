@@ -15,6 +15,10 @@ if system() == "Linux":
 
 from renderables import Now, RichAdvertisement
 
+__author__ = "Koen Vervloesem"
+__copyright__ = "Koen Vervloesem"
+__license__ = "MIT"
+
 _PAUSE_STYLE = Style(color="red", bgcolor="grey50")
 
 

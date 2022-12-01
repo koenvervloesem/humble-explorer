@@ -9,6 +9,10 @@ from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
 
+__author__ = "Koen Vervloesem"
+__copyright__ = "Koen Vervloesem"
+__license__ = "MIT"
+
 printable_chars = printable.replace(whitespace, " ")
 
 
@@ -33,10 +37,7 @@ class RSSI:
         self.rssi = rssi
 
     def __rich__(self) -> Text:
-        if self.rssi is not None:
-            return Text.assemble((str(self.rssi), "green bold"), " dBm")
-        else:
-            return ""
+        return Text.assemble((str(self.rssi), "green bold"), " dBm")
 
 
 class UUID:
