@@ -10,6 +10,9 @@
 .. image:: https://readthedocs.org/projects/humble-explorer/badge/?version=latest
     :target: https://humble-explorer.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
+.. image:: https://codecov.io/gh/koenvervloesem/humble-explorer/branch/main/graph/badge.svg?token=YE57XF55FF
+    :alt: Codecov coverage
+    :target: https://codecov.io/gh/koenvervloesem/humble-explorer
 .. image:: https://img.shields.io/github/license/koenvervloesem/humble-explorer.svg
     :alt: License
     :target: https://github.com/koenvervloesem/ble-explorer/blob/main/LICENSE.txt
