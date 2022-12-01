@@ -7,6 +7,9 @@
 .. image:: https://img.shields.io/pypi/pyversions/humble-explorer.svg
     :alt: Supported Python versions
     :target: https://python.org/
+.. image:: https://readthedocs.org/projects/humble-explorer/badge/?version=latest
+    :target: https://humble-explorer.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 .. image:: https://img.shields.io/github/license/koenvervloesem/humble-explorer.svg
     :alt: License
     :target: https://github.com/koenvervloesem/ble-explorer/blob/main/LICENSE.txt
@@ -39,6 +42,11 @@ Usage
 HumBLE Explorer understands some command-line arguments, which you can see with the ``--help`` option::
 
     humble-explorer --help
+
+Documentation
+=============
+
+Read HumBLE Explorer's `online documentation <https://humble-explorer.readthedocs.io>`_.
 
 .. _pyscaffold-notes:
 
