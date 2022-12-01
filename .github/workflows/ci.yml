@@ -2,7 +2,7 @@
 # MODIFY IT ACCORDING TO YOUR NEEDS!
 # Reference: https://docs.github.com/en/actions
 
-name: Tests
+name: tests
 
 on:
   push:
