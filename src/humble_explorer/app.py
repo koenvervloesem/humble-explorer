@@ -13,7 +13,7 @@ if system() == "Linux":
     from bleak.backends.bluezdbus.advertisement_monitor import OrPattern
     from bleak.backends.bluezdbus.scanner import BlueZScannerArgs
 
-from renderables import Now, RichAdvertisement
+from humble_explorer.renderables import Now, RichAdvertisement
 
 __author__ = "Koen Vervloesem"
 __copyright__ = "Koen Vervloesem"
