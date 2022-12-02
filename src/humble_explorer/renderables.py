@@ -4,10 +4,13 @@ from string import printable, whitespace
 from bleak.backends.scanner import AdvertisementData
 from bleak.uuids import uuidstr_to_str
 from bluetooth_numbers.companies import company
+from rich._palettes import EIGHT_BIT_PALETTE
 from rich.style import Style
 from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
+
+from humble_explorer.utils import hash8
 
 __author__ = "Koen Vervloesem"
 __copyright__ = "Koen Vervloesem"
@@ -17,17 +20,33 @@ printable_chars = printable.replace(whitespace, " ")
 
 
 class Now:
-    """Rich renderable that shows the current time."""
+    """Rich renderable that shows the current time. All times within the same second
+    are rendered in the same color."""
 
     def __init__(self, style: Style = None):
-        self.time = datetime.now().strftime("%H:%M:%S.%f")
-        self.style = style
+        now = datetime.now()
+        self.time = now.strftime("%H:%M:%S.%f")
+        if style:
+            self.style = style
+        else:
+            self.style = Style(
+                color=EIGHT_BIT_PALETTE[hash8(now.strftime("%H:%M:%S"))].hex
+            )
 
     def __rich__(self) -> Text:
-        if self.style:
-            return Text(self.time, style=self.style)
-        else:
-            return Text(self.time)
+        return Text(self.time, style=self.style)
+
+
+class DeviceAddress:
+    """Rich renderable that shows a Bluetooth device address. Every address is rendered
+    in its own color."""
+
+    def __init__(self, address: str):
+        self.address = address
+        self.style = Style(color=EIGHT_BIT_PALETTE[hash8(self.address)].hex)
+
+    def __rich__(self) -> Text:
+        return Text(self.address, style=self.style)
 
 
 class RSSI:

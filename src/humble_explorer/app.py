@@ -13,7 +13,7 @@ if system() == "Linux":
     from bleak.backends.bluezdbus.advertisement_monitor import OrPattern
     from bleak.backends.bluezdbus.scanner import BlueZScannerArgs
 
-from humble_explorer.renderables import Now, RichAdvertisement
+from humble_explorer.renderables import DeviceAddress, Now, RichAdvertisement
 
 __author__ = "Koen Vervloesem"
 __copyright__ = "Koen Vervloesem"
@@ -79,7 +79,7 @@ class BLEScannerApp(App[None]):
         table = self.query_one(DataTable)
         table.add_row(
             Now(),
-            device.address,
+            DeviceAddress(device.address),
             rich_advertisement,
             height=rich_advertisement.height(),
         )
