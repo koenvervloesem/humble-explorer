@@ -6,7 +6,7 @@ from bleak.backends.device import BLEDevice
 from bleak.backends.scanner import AdvertisementData
 from rich.style import Style
 from textual.app import App, ComposeResult
-from textual.widgets import DataTable, Footer, Header
+from textual.widgets import DataTable, Footer, Header, Input
 
 if system() == "Linux":
     from bleak.assigned_numbers import AdvertisementDataType
@@ -26,8 +26,10 @@ class BLEScannerApp(App[None]):
     """A Textual app to scan for Bluetooth Low Energy advertisements."""
 
     TITLE = "HumBLE Explorer"
+    CSS_PATH = "app.css"
     BINDINGS = [
         ("q", "quit", "Quit"),
+        ("f", "toggle_filter", "Filter"),
         ("s", "toggle_scan", "Toggle scan"),
     ]
 
@@ -55,7 +57,17 @@ class BLEScannerApp(App[None]):
         self.scanner = BleakScanner(**scanner_kwargs)
         self.scanning = False
 
+        # Initialize empty address filter
+        self.address_filter = ""
+
+        # Initialize empty list of advertisements
+        self.advertisements = []
+
         super().__init__()
+
+    def action_toggle_filter(self) -> None:
+        """Enable or disable filter input widget."""
+        self.query_one("#filter", Input).toggle_class("hidden")
 
     async def action_toggle_scan(self) -> None:
         """Start or stop BLE scanning."""
@@ -68,6 +80,7 @@ class BLEScannerApp(App[None]):
         """Create child widgets for the app."""
         yield Header()
         yield Footer()
+        yield Input(id="filter", classes="hidden")
         yield DataTable(zebra_stripes=True)
 
     async def on_advertisement(
@@ -75,21 +88,48 @@ class BLEScannerApp(App[None]):
     ) -> None:
         """Show advertisement data on detection of a BLE advertisement."""
         self.log(advertisement_data.local_name, device.address, advertisement_data)
+
+        # Create renderables for advertisement and add them to list of advertisements.
+        now = Now()
+        device_address = DeviceAddress(device.address)
         rich_advertisement = RichAdvertisement(advertisement_data)
-        table = self.query_one(DataTable)
-        table.add_row(
-            Now(),
-            DeviceAddress(device.address),
-            rich_advertisement,
-            height=rich_advertisement.height(),
-        )
-        table.scroll_end(animate=False)
+        self.advertisements.append((now, device_address, rich_advertisement))
+
+        # Only add advertisement to table if it matches current address filter.
+        if device.address.startswith(self.address_filter):
+            table = self.query_one(DataTable)
+            table.add_row(
+                now,
+                device_address,
+                rich_advertisement,
+                height=rich_advertisement.height(),
+            )
+            table.scroll_end(animate=False)
 
     async def on_mount(self) -> None:
         """Initialize interface and start BLE scan."""
         table = self.query_one(DataTable)
         table.add_columns("Time", "Address", "Advertisement")
         await self.start_scan()
+
+    def on_input_changed(self, message: Input.Changed) -> None:
+        """Filter advertisements with user-supplied filter."""
+        if message.value.startswith("address="):
+            self.address_filter = message.value[8:].upper()
+        else:
+            self.address_filter = ""
+
+        # Recreate table content with changed filter.
+        table = self.query_one(DataTable)
+        table.clear()
+        for advertisement in self.advertisements:
+            if advertisement[1].address.startswith(self.address_filter):
+                table.add_row(
+                    advertisement[0],
+                    advertisement[1],
+                    advertisement[2],
+                    height=advertisement[2].height(),
+                )
 
     async def start_scan(self) -> None:
         """Start BLE scan."""
