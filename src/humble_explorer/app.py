@@ -22,11 +22,22 @@ __license__ = "MIT"
 _PAUSE_STYLE = Style(color="red", bgcolor="grey50")
 
 
+class FilterWidget(Input):
+    """A Textual widget to filter Bluetooth Low Energy advertisements."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.display = False
+
+    def on_blur(self, message: Input.on_blur) -> None:
+        """ "Automatically hide widget on losing focus."""
+        self.display = False
+
+
 class BLEScannerApp(App[None]):
     """A Textual app to scan for Bluetooth Low Energy advertisements."""
 
     TITLE = "HumBLE Explorer"
-    CSS_PATH = "app.css"
     BINDINGS = [
         ("q", "quit", "Quit"),
         ("f", "toggle_filter", "Filter"),
@@ -67,7 +78,10 @@ class BLEScannerApp(App[None]):
 
     def action_toggle_filter(self) -> None:
         """Enable or disable filter input widget."""
-        self.query_one("#filter", Input).toggle_class("hidden")
+        filter_widget = self.query_one(FilterWidget)
+        filter_widget.display = not filter_widget.display
+        if filter_widget.display:
+            self.set_focus(filter_widget)
 
     async def action_toggle_scan(self) -> None:
         """Start or stop BLE scanning."""
@@ -80,7 +94,7 @@ class BLEScannerApp(App[None]):
         """Create child widgets for the app."""
         yield Header()
         yield Footer()
-        yield Input(id="filter", classes="hidden")
+        yield FilterWidget(placeholder="address=")
         yield DataTable(zebra_stripes=True)
 
     async def on_advertisement(
