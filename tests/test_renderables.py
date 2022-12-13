@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rich.text import Span, Text
 
 from humble_explorer.renderables import (
@@ -7,7 +9,7 @@ from humble_explorer.renderables import (
     DeviceAddress,
     HexData,
     HexString,
-    Now,
+    Time,
 )
 
 __author__ = "Koen Vervloesem"
@@ -15,16 +17,16 @@ __copyright__ = "Koen Vervloesem"
 __license__ = "MIT"
 
 
-def test_now():
-    """Test Now class."""
-    now1 = Now()
-    now2 = Now()
-    # Make now1 and now2 times within the same second
-    while now1.time.split(".")[0] != now2.time.split(".")[0]:
-        now1 = Now()
+def test_time():
+    """Test Time class."""
+    time1 = Time(datetime.now())
+    time2 = Time(datetime.now())
+    # Make time1 and time2 times within the same second
+    while time1.full_time.split(".")[0] != time2.full_time.split(".")[0]:
+        time1 = Time(datetime.now())
 
     # Times within the same second should have the same color
-    assert now1.style == now2.style
+    assert time1.style == time2.style
 
 
 def test_device_address():
