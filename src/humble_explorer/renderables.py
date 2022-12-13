@@ -1,4 +1,3 @@
-from datetime import datetime
 from string import printable, whitespace
 
 from bleak.backends.scanner import AdvertisementData
@@ -19,22 +18,21 @@ __license__ = "MIT"
 printable_chars = printable.replace(whitespace, " ")
 
 
-class Now:
-    """Rich renderable that shows the current time. All times within the same second
+class Time:
+    """Rich renderable that shows a time. All times within the same second
     are rendered in the same color."""
 
-    def __init__(self, style: Style = None):
-        now = datetime.now()
-        self.time = now.strftime("%H:%M:%S.%f")
+    def __init__(self, time, style: Style = None):
+        self.full_time = time.strftime("%H:%M:%S.%f")
         if style:
             self.style = style
         else:
             self.style = Style(
-                color=EIGHT_BIT_PALETTE[hash8(now.strftime("%H:%M:%S"))].hex
+                color=EIGHT_BIT_PALETTE[hash8(time.strftime("%H:%M:%S"))].hex
             )
 
     def __rich__(self) -> Text:
-        return Text(self.time, style=self.style)
+        return Text(self.full_time, style=self.style)
 
 
 class DeviceAddress:
@@ -130,30 +128,31 @@ class HexString:
 class RichAdvertisement:
     """Rich renderable that shows advertisement data."""
 
-    def __init__(self, data: AdvertisementData):
+    def __init__(self, data: AdvertisementData, show_data):
         self.data = data
+        self.show_data = show_data
 
     def __rich__(self) -> Table:
         table = Table(show_header=False, show_edge=False, padding=0)
 
         # Show local name
-        if self.data.local_name:
+        if self.data.local_name and self.show_data["local_name"]:
             table.add_row(
                 Text.assemble("local name: ", (self.data.local_name, "green bold"))
             )
 
         # Show RSSI
-        if self.data.rssi:
+        if self.data.rssi and self.show_data["rssi"]:
             table.add_row(Text.assemble("RSSI: ", RSSI(self.data.rssi).__rich__()))
 
         # Show TX Power
-        if self.data.tx_power:
+        if self.data.tx_power and self.show_data["tx_power"]:
             table.add_row(
-                Text.assemble("TX Power: ", RSSI(self.data.tx_power).__rich__())
+                Text.assemble("TX power: ", RSSI(self.data.tx_power).__rich__())
             )
 
         # Show manufacturer data
-        if self.data.manufacturer_data:
+        if self.data.manufacturer_data and self.show_data["manufacturer_data"]:
             tree = Tree("manufacturer data:")
             for cic, value in self.data.manufacturer_data.items():
                 company = Tree(
@@ -165,7 +164,7 @@ class RichAdvertisement:
             table.add_row(tree)
 
         # Show service data
-        if self.data.service_data:
+        if self.data.service_data and self.show_data["service_data"]:
             tree = Tree("service data:")
             for uuid, value in self.data.service_data.items():
                 svc_uuid = Tree(
@@ -177,7 +176,7 @@ class RichAdvertisement:
             table.add_row(tree)
 
         # Show service UUIDs with their description
-        if self.data.service_uuids:
+        if self.data.service_uuids and self.show_data["service_uuids"]:
             tree = Tree("service UUIDs:")
             for uuid in sorted(self.data.service_uuids):
                 tree.add(UUID(uuid))
@@ -187,16 +186,16 @@ class RichAdvertisement:
 
     def height(self) -> int:
         height = 0
-        if self.data.local_name:
+        if self.data.local_name and self.show_data["local_name"]:
             height += 1
-        if self.data.rssi:
+        if self.data.rssi and self.show_data["rssi"]:
             height += 1
-        if self.data.tx_power:
+        if self.data.tx_power and self.show_data["tx_power"]:
             height += 1
-        if self.data.manufacturer_data:
+        if self.data.manufacturer_data and self.show_data["manufacturer_data"]:
             height = height + 1 + 3 * len(self.data.manufacturer_data)
-        if self.data.service_data:
+        if self.data.service_data and self.show_data["service_data"]:
             height = height + 1 + 3 * len(self.data.service_data)
-        if self.data.service_uuids:
+        if self.data.service_uuids and self.show_data["service_uuids"]:
             height = height + 1 + len(self.data.service_uuids)
         return height
