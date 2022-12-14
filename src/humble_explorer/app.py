@@ -36,6 +36,7 @@ class BLEScannerApp(App[None]):
         ("f", "toggle_filter", "Filter"),
         ("s", "toggle_settings", "Settings"),
         ("t", "toggle_scan", "Toggle scan"),
+        ("c", "clear_advertisements", "Clear"),
     ]
 
     address_filter = reactive("")
@@ -91,6 +92,11 @@ class BLEScannerApp(App[None]):
             await self.stop_scan()
         else:
             await self.start_scan()
+
+    def action_clear_advertisements(self) -> None:
+        """Clear the list of received advertisements."""
+        self.advertisements = []
+        self.query_one(DataTable).clear()
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
