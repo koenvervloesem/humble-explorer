@@ -35,8 +35,8 @@ class BLEScannerApp(App[None]):
     BINDINGS = [
         ("q", "quit", "Quit"),
         ("f", "toggle_filter", "Filter"),
-        ("a", "toggle_data", "Data"),
-        ("s", "toggle_scan", "Toggle scan"),
+        ("s", "toggle_settings", "Settings"),
+        ("t", "toggle_scan", "Toggle scan"),
     ]
 
     address_filter = reactive("")
@@ -70,8 +70,8 @@ class BLEScannerApp(App[None]):
 
         super().__init__()
 
-    def action_toggle_data(self) -> None:
-        """Enable or disable data widget."""
+    def action_toggle_settings(self) -> None:
+        """Enable or disable settings widget."""
         settings_widget = self.query_one(SettingsWidget)
         settings_widget.display = not settings_widget.display
 
