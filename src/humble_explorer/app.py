@@ -31,7 +31,6 @@ class BLEScannerApp(App[None]):
     """A Textual app to scan for Bluetooth Low Energy advertisements."""
 
     CSS_PATH = "app.css"
-    TITLE = f"HumBLE Explorer {__version__}"
     BINDINGS = [
         ("q", "quit", "Quit"),
         ("f", "toggle_filter", "Filter"),
@@ -69,6 +68,10 @@ class BLEScannerApp(App[None]):
         self.advertisements = []
 
         super().__init__()
+
+    def set_title(self, scanning_description):
+        """Set the title of the app with a description of the scanning status."""
+        self.title = f"HumBLE Explorer {__version__} ({scanning_description})"
 
     def action_toggle_settings(self) -> None:
         """Enable or disable settings widget."""
@@ -190,11 +193,13 @@ class BLEScannerApp(App[None]):
     async def start_scan(self) -> None:
         """Start BLE scan."""
         self.scanning = True
+        self.set_title("Scanning")
         await self.scanner.start()
 
     async def stop_scan(self) -> None:
         """Stop BLE scan."""
         self.scanning = False
+        self.set_title("Stopped")
         await self.scanner.stop()
         table = self.query_one(DataTable)
         table.add_row(Time(datetime.now(), style=_PAUSE_STYLE))
