@@ -33,7 +33,7 @@ User interface
 
 When you start HumBLE Explorer, it starts scanning for Bluetooth Low Energy advertisements and is showing them continuously in a scrollable table:
 
-.. image:: https://raw.githubusercontent.com/koenvervloesem/humble-explorer/main/docs/_static/screenshot.png
+.. image:: _static/screenshot.png
     :alt: Human-friendly Bluetooth Low Energy Explorer in action
 
 For each advertisement, the program shows columns for:

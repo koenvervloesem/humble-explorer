@@ -79,7 +79,10 @@ Code Contributions
 
 HumBLE Explorer is using Textual_ for its text user interface and Bleak_
 for Bluetooth Low Energy support. It's recommended to make yourself comfortable
-with both libraries if you want to contribute to this project.
+with both libraries if you want to contribute to this project. Both projects have
+excellent documentation and example code.
+
+If you want to learn more about Bluetooth Low Energy development, read the book `Develop your own Bluetooth Low Energy Applications for Raspberry Pi, ESP32 and nRF52 with Python, Arduino and Zephyr <https://koen.vervloesem.eu/books/develop-your-own-bluetooth-low-energy-applications/>`_ and the accompanying GitHub repository `koenvervloesem/bluetooth-low-energy-applications <https://github.com/koenvervloesem/bluetooth-low-energy-applications>`_. The Python examples in the book are using Bleak, and it also gives a lot of practical explanations about how BLE works.
 
 Submit an issue
 ---------------
@@ -234,6 +237,17 @@ package:
    running ``tox -- -k <NAME OF THE FALLING TEST> --pdb``).
    You can also setup breakpoints manually instead of using the ``--pdb`` option.
 
+#. You can debug HumBLE Explorer with Textual's debug console.
+
+   To use the console, open up **two** terminal emulators. Run the following in one of the terminals::
+
+    textual console
+
+   You should see the Textual devtools welcome message.
+
+   In the other console, go to the ``src`` directory and run HumBLE Explorer with::
+
+    TEXTUAL=devtools python3 humble_explorer.__main__
 
 Maintainer tasks
 ================
