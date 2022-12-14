@@ -7,6 +7,7 @@ from bleak.backends.device import BLEDevice
 from bleak.backends.scanner import AdvertisementData
 from rich.style import Style
 from textual.app import App, ComposeResult
+from textual.reactive import reactive
 from textual.widgets import Checkbox, DataTable, Footer, Header, Input
 
 if system() == "Linux":
@@ -38,6 +39,8 @@ class BLEScannerApp(App[None]):
         ("s", "toggle_scan", "Toggle scan"),
     ]
 
+    address_filter = reactive("")
+
     def __init__(self, cli_args: Namespace):
         """Initialize BLE scanner."""
 
@@ -61,9 +64,6 @@ class BLEScannerApp(App[None]):
         scanner_kwargs["detection_callback"] = self.on_advertisement
         self.scanner = BleakScanner(**scanner_kwargs)
         self.scanning = False
-
-        # Initialize empty address filter
-        self.address_filter = ""
 
         # Initialize empty list of advertisements
         self.advertisements = []
@@ -150,6 +150,10 @@ class BLEScannerApp(App[None]):
         else:
             self.address_filter = ""
 
+    def watch_address_filter(self, old_filter: str, new_filter: str) -> None:
+        """Watch method called when the reactive attribute address_filter
+        changes.
+        """
         self.recreate_table()
 
     def recreate_table(self):
