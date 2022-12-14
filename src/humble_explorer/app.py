@@ -16,7 +16,7 @@ if system() == "Linux":
     from bleak.backends.bluezdbus.scanner import BlueZScannerArgs
 
 from humble_explorer.renderables import DeviceAddress, RichAdvertisement, Time
-from humble_explorer.widgets import FilterWidget, ShowDataWidget
+from humble_explorer.widgets import FilterWidget, SettingsWidget
 
 from . import __version__
 
@@ -72,8 +72,8 @@ class BLEScannerApp(App[None]):
 
     def action_toggle_data(self) -> None:
         """Enable or disable data widget."""
-        data_widget = self.query_one(ShowDataWidget)
-        data_widget.display = not data_widget.display
+        settings_widget = self.query_one(SettingsWidget)
+        settings_widget.display = not settings_widget.display
 
     def action_toggle_filter(self) -> None:
         """Enable or disable filter input widget."""
@@ -93,7 +93,7 @@ class BLEScannerApp(App[None]):
         """Create child widgets for the app."""
         yield Header()
         yield Footer()
-        yield ShowDataWidget(id="sidebar")
+        yield SettingsWidget(id="sidebar")
         yield FilterWidget(placeholder="address=")
         yield DataTable(zebra_stripes=True)
 
@@ -141,7 +141,8 @@ class BLEScannerApp(App[None]):
         """Show or hide advertisement data depending on the state of
         the checkboxes.
         """
-        self.recreate_table()
+        if "view" in message.input.classes:
+            self.recreate_table()
 
     def on_input_changed(self, message: Input.Changed) -> None:
         """Filter advertisements with user-supplied filter."""
@@ -168,6 +169,11 @@ class BLEScannerApp(App[None]):
                 RichAdvertisement(advertisement[2], self.show_data_config()),
             )
 
+    def scroll_if_autoscroll(self):
+        """Scroll to the end if autoscroll is enabled."""
+        if self.query_one("#autoscroll").value:
+            self.query_one(DataTable).scroll_end(animate=False)
+
     def add_advertisement_to_table(
         self, table, now, device_address, rich_advertisement
     ):
@@ -179,7 +185,7 @@ class BLEScannerApp(App[None]):
                 rich_advertisement,
                 height=rich_advertisement.height(),
             )
-            table.scroll_end(animate=False)
+            self.scroll_if_autoscroll()
 
     async def start_scan(self) -> None:
         """Start BLE scan."""
@@ -192,4 +198,4 @@ class BLEScannerApp(App[None]):
         await self.scanner.stop()
         table = self.query_one(DataTable)
         table.add_row(Time(datetime.now(), style=_PAUSE_STYLE))
-        table.scroll_end(animate=False)
+        self.scroll_if_autoscroll()

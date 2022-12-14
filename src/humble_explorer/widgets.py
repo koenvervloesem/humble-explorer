@@ -19,8 +19,8 @@ class FilterWidget(Input):
         self.display = False
 
 
-class ShowDataWidget(Static):
-    """A Textual widget to let the user choose what advertisement data to show."""
+class SettingsWidget(Static):
+    """A Textual widget to let the user choose settings."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -28,35 +28,41 @@ class ShowDataWidget(Static):
 
     def compose(self) -> ComposeResult:
         """Show checkboxes."""
-        yield Static("[b]Show data\n")
+        yield Static("[b]Show data types[/b]\n")
         yield Horizontal(
             Static("Local name       ", classes="label"),
-            Checkbox(value=True, id="local_name"),
+            Checkbox(value=True, id="local_name", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("RSSI             ", classes="label"),
-            Checkbox(value=True, id="rssi"),
+            Checkbox(value=True, id="rssi", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("TX power         ", classes="label"),
-            Checkbox(value=True, id="tx_power"),
+            Checkbox(value=True, id="tx_power", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("Manufacturer data", classes="label"),
-            Checkbox(value=True, id="manufacturer_data"),
+            Checkbox(value=True, id="manufacturer_data", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("Service data     ", classes="label"),
-            Checkbox(value=True, id="service_data"),
+            Checkbox(value=True, id="service_data", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("Service UUIDs    ", classes="label"),
-            Checkbox(value=True, id="service_uuids"),
+            Checkbox(value=True, id="service_uuids", classes="view"),
+            classes="container",
+        )
+        yield Static("\n[b]Other settings[/b]\n")
+        yield Horizontal(
+            Static("Auto-scroll      ", classes="label"),
+            Checkbox(value=True, id="autoscroll", classes="view"),
             classes="container",
         )
 
