@@ -4,6 +4,13 @@ Usage
 
 HumBLE Explorer runs on the command line with an interactive Text User Interface (TUI).
 
+Installation
+------------
+
+You can install HumBLE Explorer as a pip package from PyPI::
+
+    pip install humble-explorer
+
 Command-line arguments
 ----------------------
 

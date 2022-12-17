@@ -1,8 +1,18 @@
+.. include:: ../README.rst
+   :end-before: inclusion-marker-after-badges
+
 ===============
 HumBLE Explorer
 ===============
 
-This is the documentation of **HumBLE Explorer**.
+
+    Human-friendly Bluetooth Low Energy Explorer
+
+
+This is a cross-platform (Windows, Linux, macOS) human-friendly program to scan for Bluetooth Low Energy (BLE) advertisements on the command line. It's mostly useful for people who develop BLE software or want to debug problems with BLE devices.
+
+.. image:: _static/screenshot.png
+    :alt: Human-friendly Bluetooth Low Energy Explorer in action
 
 Contents
 ========
@@ -10,7 +20,6 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   Overview <readme>
    Usage <usage>
    Contributions & Help <contributing>
    License <license>

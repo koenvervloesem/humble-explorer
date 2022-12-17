@@ -15,11 +15,11 @@
     :target: https://codecov.io/gh/koenvervloesem/humble-explorer
 .. image:: https://img.shields.io/github/license/koenvervloesem/humble-explorer.svg
     :alt: License
-    :target: https://github.com/koenvervloesem/ble-explorer/blob/main/LICENSE.txt
+    :target: https://github.com/koenvervloesem/humble-explorer/blob/main/LICENSE.txt
 
 |
 
-.. inclusion-marker-start-description
+.. inclusion-marker-after-badges
 
 ===============
 HumBLE Explorer
@@ -31,12 +31,8 @@ HumBLE Explorer
 
 This is a cross-platform (Windows, Linux, macOS) human-friendly program to scan for Bluetooth Low Energy (BLE) advertisements on the command line. It's mostly useful for people who develop BLE software or want to debug problems with BLE devices.
 
-.. inclusion-marker-stop-description
-
-.. image:: docs/_static/screenshot.png
+.. image:: https://github.com/koenvervloesem/humble-explorer/raw/main/docs/_static/screenshot.png
     :alt: Human-friendly Bluetooth Low Energy Explorer in action
-
-.. inclusion-marker-start-readme-in-docs
 
 Installation
 ============
@@ -61,12 +57,6 @@ Learn more about Bluetooth Low Energy development
 =================================================
 
 If you want to learn more about Bluetooth Low Energy development, read the book `Develop your own Bluetooth Low Energy Applications for Raspberry Pi, ESP32 and nRF52 with Python, Arduino and Zephyr <https://koen.vervloesem.eu/books/develop-your-own-bluetooth-low-energy-applications/>`_ and the accompanying GitHub repository `koenvervloesem/bluetooth-low-energy-applications <https://github.com/koenvervloesem/bluetooth-low-energy-applications>`_.
-
-Note
-====
-
-This project has been set up using PyScaffold 4.3.1. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
 
 License
 =======
