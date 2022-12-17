@@ -1,3 +1,4 @@
+"""This module contains utility functions for HumBLE Explorer."""
 from random import shuffle
 
 __author__ = "Koen Vervloesem"

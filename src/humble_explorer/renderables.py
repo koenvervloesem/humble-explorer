@@ -1,3 +1,6 @@
+"""This module contains Rich renderables that are part of HumBLE Explorer's user
+interface.
+"""
 from string import printable, whitespace
 
 from bleak.backends.scanner import AdvertisementData
@@ -185,6 +188,7 @@ class RichAdvertisement:
         return table
 
     def height(self) -> int:
+        """Return the number of lines this Rich renderable uses."""
         height = 0
         if self.data.local_name and self.show_data["local_name"]:
             height += 1

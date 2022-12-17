@@ -1,3 +1,4 @@
+"""This module contains Textual widgets for HumBLE Explorer's user interface."""
 from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.widgets import Checkbox, Input, Static
