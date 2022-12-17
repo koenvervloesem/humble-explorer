@@ -1,3 +1,8 @@
+"""HumBLE Explorer
+
+This is a cross-platform (Windows, Linux, macOS) human-friendly program to scan for
+Bluetooth Low Energy (BLE) advertisements on the command line.
+"""
 from sys import version_info
 
 if version_info[:2] >= (3, 8):

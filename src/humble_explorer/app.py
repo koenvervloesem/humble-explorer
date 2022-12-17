@@ -1,3 +1,6 @@
+"""This module contains the Textual app that scans for Bluetooth Low Energy
+advertisements.
+"""
 from argparse import Namespace
 from datetime import datetime
 from platform import system
