@@ -11,8 +11,8 @@ __license__ = "MIT"
 class FilterWidget(Input):
     """A Textual widget to filter Bluetooth Low Energy advertisements."""
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, placeholder: str = "") -> None:
+        super().__init__(placeholder=placeholder)
         self.display = False
 
     def on_blur(self) -> None:
@@ -23,8 +23,8 @@ class FilterWidget(Input):
 class SettingsWidget(Static):
     """A Textual widget to let the user choose settings."""
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, id: str | None = None) -> None:
+        super().__init__(id=id)
         self.display = False
 
     def compose(self) -> ComposeResult:

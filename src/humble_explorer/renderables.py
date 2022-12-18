@@ -1,8 +1,9 @@
 """This module contains Rich renderables that are part of HumBLE Explorer's user
 interface.
 """
+from datetime import datetime
 from string import printable, whitespace
-from typing import Optional
+from typing import Dict, Optional
 
 from bleak.backends.scanner import AdvertisementData
 from bleak.uuids import uuidstr_to_str
@@ -26,7 +27,7 @@ class Time:
     """Rich renderable that shows a time. All times within the same second
     are rendered in the same color."""
 
-    def __init__(self, time, style: Optional[Style] = None):
+    def __init__(self, time: datetime, style: Optional[Style] = None) -> None:
         self.full_time = time.strftime("%H:%M:%S.%f")
         if style:
             self.style = style
@@ -43,7 +44,7 @@ class DeviceAddress:
     """Rich renderable that shows a Bluetooth device address. Every address is rendered
     in its own color."""
 
-    def __init__(self, address: str):
+    def __init__(self, address: str) -> None:
         self.address = address
         self.style = Style(color=EIGHT_BIT_PALETTE[hash8(self.address)].hex)
 
@@ -54,7 +55,7 @@ class DeviceAddress:
 class RSSI:
     """Rich renderable that shows RSSI of a device."""
 
-    def __init__(self, rssi: int):
+    def __init__(self, rssi: int) -> None:
         self.rssi = rssi
 
     def __rich__(self) -> Text:
@@ -64,7 +65,7 @@ class RSSI:
 class UUID:
     """Rich renderable that shows a UUID with description and colors."""
 
-    def __init__(self, uuid128: str):
+    def __init__(self, uuid128: str) -> None:
         self.uuid128 = uuid128
 
     def __rich__(self) -> Text:
@@ -86,7 +87,7 @@ class UUID:
 class CompanyID:
     """Rich renderable that shows company ID and name."""
 
-    def __init__(self, cic: int):
+    def __init__(self, cic: int) -> None:
         self.cic = cic
 
     def __rich__(self) -> Text:
@@ -103,7 +104,7 @@ class CompanyID:
 class HexData:
     """Rich renderable that shows hex data."""
 
-    def __init__(self, data: bytes):
+    def __init__(self, data: bytes) -> None:
         self.data = data
 
     def __rich__(self) -> Text:
@@ -114,7 +115,7 @@ class HexString:
     """Rich renderable that shows hex data as a string with non-printable characters
     replaced by a dot."""
 
-    def __init__(self, data: bytes):
+    def __init__(self, data: bytes) -> None:
         self.data = data
 
     def __rich__(self) -> str:
@@ -132,7 +133,7 @@ class HexString:
 class RichAdvertisement:
     """Rich renderable that shows advertisement data."""
 
-    def __init__(self, data: AdvertisementData, show_data):
+    def __init__(self, data: AdvertisementData, show_data: Dict[str, bool]) -> None:
         self.data = data
         self.show_data = show_data
 
