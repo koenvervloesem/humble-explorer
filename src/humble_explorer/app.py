@@ -69,7 +69,7 @@ class BLEScannerApp(App[None]):
         self.scanning = False
 
         # Initialize empty list of advertisements
-        self.advertisements = []
+        self.advertisements: list[tuple[datetime, str, AdvertisementData]] = []
 
         super().__init__()
 

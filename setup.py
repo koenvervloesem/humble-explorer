@@ -6,7 +6,7 @@
     PyScaffold helps you to put up the scaffold of your new Python project.
     Learn more under: https://pyscaffold.org/
 """
-from setuptools import setup
+from setuptools import setup  # type: ignore
 
 if __name__ == "__main__":
     try:
