@@ -15,7 +15,7 @@ class FilterWidget(Input):
         super().__init__(*args, **kwargs)
         self.display = False
 
-    def on_blur(self, message: Input.on_blur) -> None:
+    def on_blur(self) -> None:
         """ "Automatically hide widget on losing focus."""
         self.display = False
 
@@ -67,6 +67,6 @@ class SettingsWidget(Static):
             classes="container",
         )
 
-    def on_blur(self, message: Input.on_blur) -> None:
+    def on_blur(self) -> None:
         """Automatically hide widget on losing focus."""
         self.display = False

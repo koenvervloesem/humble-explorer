@@ -2,6 +2,7 @@
 interface.
 """
 from string import printable, whitespace
+from typing import Optional
 
 from bleak.backends.scanner import AdvertisementData
 from bleak.uuids import uuidstr_to_str
@@ -25,7 +26,7 @@ class Time:
     """Rich renderable that shows a time. All times within the same second
     are rendered in the same color."""
 
-    def __init__(self, time, style: Style = None):
+    def __init__(self, time, style: Optional[Style] = None):
         self.full_time = time.strftime("%H:%M:%S.%f")
         if style:
             self.style = style
@@ -77,7 +78,7 @@ class UUID:
                 "-0000-1000-8000-00805f9b34fb",
             )
         else:
-            colored_uuid = self.uuid128
+            colored_uuid = Text(self.uuid128)
 
         return Text.assemble(colored_uuid, f" ({uuidstr_to_str(self.uuid128)})")
 

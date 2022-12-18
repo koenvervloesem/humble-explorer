@@ -52,7 +52,7 @@ def test_uuid():
     """Test UUID class."""
     # Unknown UUID should be rendered without color
     unknown_uuid = "22110000-554a-4546-5542-46534450464d"
-    assert UUID(unknown_uuid).__rich__() == Text(f"{unknown_uuid} (Unknown)")
+    assert str(UUID(unknown_uuid).__rich__()) == f"{unknown_uuid} (Unknown)"
 
     # 16-bit UUID part in a standardized 128-bit UUID should be colored
     environmental_sensing_uuid = "0000181a-0000-1000-8000-00805f9b34fb"
