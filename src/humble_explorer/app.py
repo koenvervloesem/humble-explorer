@@ -4,6 +4,7 @@ advertisements.
 from argparse import Namespace
 from datetime import datetime
 from platform import system
+from typing import Dict
 
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
@@ -44,7 +45,7 @@ class BLEScannerApp(App[None]):
 
     address_filter = reactive("")
 
-    def __init__(self, cli_args: Namespace):
+    def __init__(self, cli_args: Namespace) -> None:
         """Initialize BLE scanner."""
 
         # Configure scanning mode
@@ -73,7 +74,7 @@ class BLEScannerApp(App[None]):
 
         super().__init__()
 
-    def set_title(self, scanning_description):
+    def set_title(self, scanning_description: str) -> None:
         """Set the title of the app with a description of the scanning status."""
         self.title = f"HumBLE Explorer {__version__} ({scanning_description})"
 
@@ -109,15 +110,15 @@ class BLEScannerApp(App[None]):
         yield FilterWidget(placeholder="address=")
         yield DataTable(zebra_stripes=True)
 
-    def show_data_config(self):
+    def show_data_config(self) -> Dict[str, bool]:
         """Return dictionary with which advertisement data to show."""
         return {
-            "local_name": self.query_one("#local_name").value,
-            "rssi": self.query_one("#rssi").value,
-            "tx_power": self.query_one("#tx_power").value,
-            "manufacturer_data": self.query_one("#manufacturer_data").value,
-            "service_data": self.query_one("#service_data").value,
-            "service_uuids": self.query_one("#service_uuids").value,
+            "local_name": self.query_one("#local_name", Checkbox).value,
+            "rssi": self.query_one("#rssi", Checkbox).value,
+            "tx_power": self.query_one("#tx_power", Checkbox).value,
+            "manufacturer_data": self.query_one("#manufacturer_data", Checkbox).value,
+            "service_data": self.query_one("#service_data", Checkbox).value,
+            "service_uuids": self.query_one("#service_uuids", Checkbox).value,
         }
 
     async def on_advertisement(
@@ -169,7 +170,7 @@ class BLEScannerApp(App[None]):
         """
         self.recreate_table()
 
-    def recreate_table(self):
+    def recreate_table(self) -> None:
         """Recreate table with advertisements."""
         table = self.query_one(DataTable)
         table.clear()
@@ -181,14 +182,18 @@ class BLEScannerApp(App[None]):
                 RichAdvertisement(advertisement[2], self.show_data_config()),
             )
 
-    def scroll_if_autoscroll(self):
+    def scroll_if_autoscroll(self) -> None:
         """Scroll to the end if autoscroll is enabled."""
-        if self.query_one("#autoscroll").value:
+        if self.query_one("#autoscroll", Checkbox).value:
             self.query_one(DataTable).scroll_end(animate=False)
 
     def add_advertisement_to_table(
-        self, table, now, device_address, rich_advertisement
-    ):
+        self,
+        table: DataTable,
+        now: Time,
+        device_address: DeviceAddress,
+        rich_advertisement: RichAdvertisement,
+    ) -> None:
         """Add new row to table with time, address and advertisement."""
         if device_address.address.startswith(self.address_filter):
             table.add_row(
