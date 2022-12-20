@@ -4,10 +4,11 @@ interface.
 from datetime import datetime
 from string import printable, whitespace
 from typing import Dict, Optional
+from uuid import UUID
 
 from bleak.backends.scanner import AdvertisementData
-from bleak.uuids import uuidstr_to_str
 from bluetooth_numbers.companies import company
+from bluetooth_numbers.services import service
 from rich._palettes import EIGHT_BIT_PALETTE
 from rich.style import Style
 from rich.table import Table
@@ -23,7 +24,7 @@ __license__ = "MIT"
 printable_chars = printable.replace(whitespace, " ")
 
 
-class Time:
+class RichTime:
     """Rich renderable that shows a time. All times within the same second
     are rendered in the same color."""
 
@@ -40,7 +41,7 @@ class Time:
         return Text(self.full_time, style=self.style)
 
 
-class DeviceAddress:
+class RichDeviceAddress:
     """Rich renderable that shows a Bluetooth device address. Every address is rendered
     in its own color."""
 
@@ -52,7 +53,7 @@ class DeviceAddress:
         return Text(self.address, style=self.style)
 
 
-class RSSI:
+class RichRSSI:
     """Rich renderable that shows RSSI of a device."""
 
     def __init__(self, rssi: int) -> None:
@@ -62,7 +63,7 @@ class RSSI:
         return Text.assemble((str(self.rssi), "green bold"), " dBm")
 
 
-class UUID:
+class RichUUID:
     """Rich renderable that shows a UUID with description and colors."""
 
     def __init__(self, uuid128: str) -> None:
@@ -81,10 +82,13 @@ class UUID:
         else:
             colored_uuid = Text(self.uuid128)
 
-        return Text.assemble(colored_uuid, f" ({uuidstr_to_str(self.uuid128)})")
+        try:
+            return Text.assemble(colored_uuid, f" ({service[UUID(self.uuid128)]})")
+        except KeyError:
+            return Text.assemble(colored_uuid, " (Unknown)")
 
 
-class CompanyID:
+class RichCompanyID:
     """Rich renderable that shows company ID and name."""
 
     def __init__(self, cic: int) -> None:
@@ -101,7 +105,7 @@ class CompanyID:
         )
 
 
-class HexData:
+class RichHexData:
     """Rich renderable that shows hex data."""
 
     def __init__(self, data: bytes) -> None:
@@ -111,7 +115,7 @@ class HexData:
         return Text(f"{self.data.hex(sep= ' ')}", style="cyan bold")
 
 
-class HexString:
+class RichHexString:
     """Rich renderable that shows hex data as a string with non-printable characters
     replaced by a dot."""
 
@@ -148,12 +152,12 @@ class RichAdvertisement:
 
         # Show RSSI
         if self.data.rssi and self.show_data["rssi"]:
-            table.add_row(Text.assemble("RSSI: ", RSSI(self.data.rssi).__rich__()))
+            table.add_row(Text.assemble("RSSI: ", RichRSSI(self.data.rssi).__rich__()))
 
         # Show TX Power
         if self.data.tx_power and self.show_data["tx_power"]:
             table.add_row(
-                Text.assemble("TX power: ", RSSI(self.data.tx_power).__rich__())
+                Text.assemble("TX power: ", RichRSSI(self.data.tx_power).__rich__())
             )
 
         # Show manufacturer data
@@ -161,10 +165,12 @@ class RichAdvertisement:
             tree = Tree("manufacturer data:")
             for cic, value in self.data.manufacturer_data.items():
                 company = Tree(
-                    Text.assemble(CompanyID(cic).__rich__(), f" → {len(value)} bytes")
+                    Text.assemble(
+                        RichCompanyID(cic).__rich__(), f" → {len(value)} bytes"
+                    )
                 )
-                company.add(Text.assemble("hex  → ", HexData(value).__rich__()))
-                company.add(Text.assemble("text → ", HexString(value).__rich__()))
+                company.add(Text.assemble("hex  → ", RichHexData(value).__rich__()))
+                company.add(Text.assemble("text → ", RichHexString(value).__rich__()))
                 tree.add(company)
             table.add_row(tree)
 
@@ -173,10 +179,10 @@ class RichAdvertisement:
             tree = Tree("service data:")
             for uuid, value in self.data.service_data.items():
                 svc_uuid = Tree(
-                    Text.assemble(UUID(uuid).__rich__(), f" → {len(value)} bytes")
+                    Text.assemble(RichUUID(uuid).__rich__(), f" → {len(value)} bytes")
                 )
-                svc_uuid.add(Text.assemble("hex  → ", HexData(value).__rich__()))
-                svc_uuid.add(Text.assemble("text → ", HexString(value).__rich__()))
+                svc_uuid.add(Text.assemble("hex  → ", RichHexData(value).__rich__()))
+                svc_uuid.add(Text.assemble("text → ", RichHexString(value).__rich__()))
                 tree.add(svc_uuid)
             table.add_row(tree)
 
@@ -184,7 +190,7 @@ class RichAdvertisement:
         if self.data.service_uuids and self.show_data["service_uuids"]:
             tree = Tree("service UUIDs:")
             for uuid in sorted(self.data.service_uuids):
-                tree.add(UUID(uuid))
+                tree.add(RichUUID(uuid))
             table.add_row(tree)
 
         return table

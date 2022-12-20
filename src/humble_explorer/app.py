@@ -19,7 +19,7 @@ if system() == "Linux":
     from bleak.backends.bluezdbus.advertisement_monitor import OrPattern
     from bleak.backends.bluezdbus.scanner import BlueZScannerArgs
 
-from humble_explorer.renderables import DeviceAddress, RichAdvertisement, Time
+from humble_explorer.renderables import RichAdvertisement, RichDeviceAddress, RichTime
 from humble_explorer.widgets import FilterWidget, SettingsWidget
 
 from . import __version__
@@ -135,8 +135,8 @@ class BLEScannerApp(App[None]):
         table = self.query_one(DataTable)
         self.add_advertisement_to_table(
             table,
-            Time(now),
-            DeviceAddress(device.address),
+            RichTime(now),
+            RichDeviceAddress(device.address),
             RichAdvertisement(advertisement_data, self.show_data_config()),
         )
 
@@ -177,8 +177,8 @@ class BLEScannerApp(App[None]):
         for advertisement in self.advertisements:
             self.add_advertisement_to_table(
                 table,
-                Time(advertisement[0]),
-                DeviceAddress(advertisement[1]),
+                RichTime(advertisement[0]),
+                RichDeviceAddress(advertisement[1]),
                 RichAdvertisement(advertisement[2], self.show_data_config()),
             )
 
@@ -190,8 +190,8 @@ class BLEScannerApp(App[None]):
     def add_advertisement_to_table(
         self,
         table: DataTable,
-        now: Time,
-        device_address: DeviceAddress,
+        now: RichTime,
+        device_address: RichDeviceAddress,
         rich_advertisement: RichAdvertisement,
     ) -> None:
         """Add new row to table with time, address and advertisement."""
@@ -216,5 +216,5 @@ class BLEScannerApp(App[None]):
         self.set_title("Stopped")
         await self.scanner.stop()
         table = self.query_one(DataTable)
-        table.add_row(Time(datetime.now(), style=_PAUSE_STYLE))
+        table.add_row(RichTime(datetime.now(), style=_PAUSE_STYLE))
         self.scroll_if_autoscroll()

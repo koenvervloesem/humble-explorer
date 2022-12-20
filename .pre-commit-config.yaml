@@ -57,6 +57,7 @@ repos:
   rev: v0.991
   hooks:
   - id: mypy
+    entry: env MYPYPATH=src mypy
     args: []
     additional_dependencies:
     - bleak
