@@ -1,4 +1,6 @@
 """This module contains Textual widgets for HumBLE Explorer's user interface."""
+from typing import Optional
+
 from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.widgets import Checkbox, Input, Static
@@ -23,7 +25,7 @@ class FilterWidget(Input):
 class SettingsWidget(Static):
     """A Textual widget to let the user choose settings."""
 
-    def __init__(self, id: str | None = None) -> None:
+    def __init__(self, id: Optional[str] = None) -> None:
         super().__init__(id=id)
         self.display = False
 
