@@ -2,6 +2,18 @@
 Changelog
 =========
 
+Version 0.3.1 (2022-12-22)
+==========================
+
+This is a maintenance release with some fixes under the hood.
+
+* Improve documentation by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/19
+* Add module and method docstrings by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/20
+* Typing fixes by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/21
+* More typing fixes by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/22
+* Use bluetooth-numbers package to translate UUIDs to names by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/23
+* Upgrade to bluetooth-numbers 1.0 API by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/24
+
 Version 0.3.0 (2022-12-14)
 ==========================
 
