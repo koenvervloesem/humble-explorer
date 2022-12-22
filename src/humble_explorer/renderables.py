@@ -7,8 +7,8 @@ from typing import Dict, Optional
 from uuid import UUID
 
 from bleak.backends.scanner import AdvertisementData
-from bluetooth_numbers.companies import company
-from bluetooth_numbers.services import service
+from bluetooth_numbers import company, service
+from bluetooth_numbers.exceptions import UnknownCICError, UnknownUUIDError
 from rich._palettes import EIGHT_BIT_PALETTE
 from rich.style import Style
 from rich.table import Table
@@ -84,7 +84,7 @@ class RichUUID:
 
         try:
             return Text.assemble(colored_uuid, f" ({service[UUID(self.uuid128)]})")
-        except KeyError:
+        except UnknownUUIDError:
             return Text.assemble(colored_uuid, " (Unknown)")
 
 
@@ -97,7 +97,7 @@ class RichCompanyID:
     def __rich__(self) -> Text:
         try:
             manufacturer_name = company[self.cic]
-        except KeyError:
+        except UnknownCICError:
             manufacturer_name = "Unknown"
 
         return Text.assemble(
