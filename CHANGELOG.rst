@@ -2,6 +2,18 @@
 Changelog
 =========
 
+Version 0.3.2 (2022-12-23)
+==========================
+
+This is a bugfix release. The most important fix is that HumBLE Explorer now finally works on macOS too.
+
+Fixes
+-----
+
+* Fix typing for optional argument in SettingsWidget constructor by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/26
+* Create BleakScanner object on mount by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/27
+* Disable duplicate detection of advertisement data on Linux by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/28
+
 Version 0.3.1 (2022-12-22)
 ==========================
 
