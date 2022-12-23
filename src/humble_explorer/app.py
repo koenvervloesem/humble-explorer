@@ -49,12 +49,12 @@ class BLEScannerApp(App[None]):
         """Initialize BLE scanner."""
 
         # Configure scanning mode
-        scanner_kwargs = {"scanning_mode": cli_args.scanning_mode}
+        self.scanner_kwargs = {"scanning_mode": cli_args.scanning_mode}
 
         # Passive scanning with BlueZ needs at least one or_pattern.
         # The following matches all devices.
         if system() == "Linux" and cli_args.scanning_mode == "passive":
-            scanner_kwargs["bluez"] = BlueZScannerArgs(
+            self.scanner_kwargs["bluez"] = BlueZScannerArgs(
                 or_patterns=[
                     OrPattern(0, AdvertisementDataType.FLAGS, b"\x06"),
                     OrPattern(0, AdvertisementDataType.FLAGS, b"\x1a"),
@@ -62,11 +62,10 @@ class BLEScannerApp(App[None]):
             )
 
         # Configure Bluetooth adapter
-        scanner_kwargs["adapter"] = cli_args.adapter
+        self.scanner_kwargs["adapter"] = cli_args.adapter
 
-        # Set up BleakScanner object
-        scanner_kwargs["detection_callback"] = self.on_advertisement
-        self.scanner = BleakScanner(**scanner_kwargs)
+        # Configure scanner
+        self.scanner_kwargs["detection_callback"] = self.on_advertisement
         self.scanning = False
 
         # Initialize empty list of advertisements
@@ -147,7 +146,8 @@ class BLEScannerApp(App[None]):
         # Set focus to table for immediate keyboard navigation
         table.focus()
 
-        # Start BLE scan
+        # Set up Bleak scanner and start BLE scan
+        self.scanner = BleakScanner(**self.scanner_kwargs)
         await self.start_scan()
 
     def on_checkbox_changed(self, message: Checkbox.Changed) -> None:
