@@ -51,15 +51,22 @@ class BLEScannerApp(App[None]):
         # Configure scanning mode
         self.scanner_kwargs = {"scanning_mode": cli_args.scanning_mode}
 
-        # Passive scanning with BlueZ needs at least one or_pattern.
-        # The following matches all devices.
-        if system() == "Linux" and cli_args.scanning_mode == "passive":
-            self.scanner_kwargs["bluez"] = BlueZScannerArgs(
-                or_patterns=[
-                    OrPattern(0, AdvertisementDataType.FLAGS, b"\x06"),
-                    OrPattern(0, AdvertisementDataType.FLAGS, b"\x1a"),
-                ]
-            )
+        if system() == "Linux":
+            if cli_args.scanning_mode == "passive":
+                # Passive scanning with BlueZ needs at least one or_pattern.
+                # The following matches all devices.
+                self.scanner_kwargs["bluez"] = BlueZScannerArgs(
+                    or_patterns=[
+                        OrPattern(0, AdvertisementDataType.FLAGS, b"\x06"),
+                        OrPattern(0, AdvertisementDataType.FLAGS, b"\x1a"),
+                    ]
+                )
+            elif cli_args.scanning_mode == "active":
+                # Disable duplicate detection of advertisement data
+                # for a more low-level view of what packets are really sent.
+                self.scanner_kwargs["bluez"] = BlueZScannerArgs(
+                    filters=dict(DuplicateData=True)
+                )
 
         # Configure Bluetooth adapter
         self.scanner_kwargs["adapter"] = cli_args.adapter
