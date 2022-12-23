@@ -21,7 +21,7 @@ __author__ = "Koen Vervloesem"
 __copyright__ = "Koen Vervloesem"
 __license__ = "MIT"
 
-printable_chars = printable.replace(whitespace, " ")
+PRINTABLE_CHARS = printable.replace(whitespace, " ")
 
 
 class RichTime:
@@ -126,7 +126,7 @@ class RichHexString:
         result = []
         for byte in self.data:
             char = chr(byte)
-            if char in printable_chars:
+            if char in PRINTABLE_CHARS:
                 result.append(f" {char}")
             else:
                 result.append(" .")
@@ -164,14 +164,18 @@ class RichAdvertisement:
         if self.data.manufacturer_data and self.show_data["manufacturer_data"]:
             tree = Tree("manufacturer data:")
             for cic, value in self.data.manufacturer_data.items():
-                company = Tree(
+                company_structure = Tree(
                     Text.assemble(
                         RichCompanyID(cic).__rich__(), f" → {len(value)} bytes"
                     )
                 )
-                company.add(Text.assemble("hex  → ", RichHexData(value).__rich__()))
-                company.add(Text.assemble("text → ", RichHexString(value).__rich__()))
-                tree.add(company)
+                company_structure.add(
+                    Text.assemble("hex  → ", RichHexData(value).__rich__())
+                )
+                company_structure.add(
+                    Text.assemble("text → ", RichHexString(value).__rich__())
+                )
+                tree.add(company_structure)
             table.add_row(tree)
 
         # Show service data

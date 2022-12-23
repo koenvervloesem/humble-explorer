@@ -34,7 +34,7 @@ def parse_args(args: List[str]) -> Namespace:
     parser.add_argument(
         "--version",
         action="version",
-        version="humble-explorer {ver}".format(ver=__version__),
+        version=f"humble-explorer {__version__}",
     )
     parser.add_argument(
         "-a", "--adapter", help="Bluetooth adapter (e.g. hci1 on Linux)", type=str
@@ -52,14 +52,12 @@ def parse_args(args: List[str]) -> Namespace:
 
 
 def main(args: List[str]) -> None:
-    """Wrapper allowing :func:`fib` to be called with string arguments in a CLI fashion
-
-    Instead of returning the value from :func:`fib`, it prints the result to the
-    ``stdout`` in a nicely formatted message.
+    """Wrapper allowing the BLE scanner app to be called with string arguments in a CLI
+    fashion.
 
     Args:
       args (List[str]): command line parameters as list of strings
-          (for example  ``["--verbose", "42"]``).
+          (for example  ``["--scanning-mode", "passive"]``).
     """
     cli_args = parse_args(args)
     app = BLEScannerApp(cli_args=cli_args)
