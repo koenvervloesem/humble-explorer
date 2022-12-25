@@ -50,8 +50,30 @@ repos:
   rev: 6.0.0
   hooks:
   - id: flake8
-  ## You can add flake8 plugins via `additional_dependencies`:
-  #  additional_dependencies: [flake8-bugbear]
+    additional_dependencies:
+    - flake8-bugbear
+    - pep8-naming
+    - flake8-length
+    - tryceratops
+    - flake8-return
+    - flake8-newspaper-style
+    - flake8-class-attributes-order
+    #- flake8-warnings
+    - flake8-encodings
+    - flake8-simplify
+    - flake8-pie
+    - flake8-comprehensions
+    - flake8-picky-parentheses
+    # Documentation
+    - flake8-docstrings
+    - flake8-rst
+    - flake8-rst-docstrings
+    # Typing
+    - flake8-future-annotations
+    - flake8-annotations
+    - flake-type-annotations-plugin
+    # Tests
+    - flake8-pytest-style
 
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v0.991

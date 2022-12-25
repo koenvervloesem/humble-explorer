@@ -43,7 +43,7 @@ except FileNotFoundError:
 try:
     import sphinx
 
-    cmd_line = f"sphinx-apidoc --implicit-namespaces -f -o {output_dir} {module_dir}"
+    cmd_line = f"sphinx-apidoc --module-first --implicit-namespaces -f -o {output_dir} {module_dir}"
 
     args = cmd_line.split(" ")
     if tuple(sphinx.__version__.split(".")) >= ("1", "7"):
@@ -281,6 +281,7 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "setuptools": ("https://setuptools.pypa.io/en/stable/", None),
     "pyscaffold": ("https://pyscaffold.org/en/stable", None),
+    "bleak": ("https://bleak.readthedocs.io/en/latest/", None),
 }
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)

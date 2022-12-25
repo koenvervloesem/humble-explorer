@@ -1,4 +1,4 @@
-"""HumBLE Explorer
+"""HumBLE Explorer: Human-Friendly Bluetooth Low Energy Explorer.
 
 This is a cross-platform (Windows, Linux, macOS) human-friendly program to scan for
 Bluetooth Low Energy (BLE) advertisements on the command line.

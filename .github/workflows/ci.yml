@@ -52,8 +52,8 @@ jobs:
         with: {fetch-depth: 0}  # deep clone for setuptools-scm
       - uses: actions/setup-python@v4
         with: {python-version: "3.11"}
-      - name: Build docs and run linkcheck
-        run: pipx run --spec tox==3.27.1 tox -e clean,docs,linkcheck
+      - name: Build docs and run doctests and linkcheck
+        run: pipx run --spec tox==3.27.1 tox -e clean,docs,doctests,linkcheck
 
   test:
     needs: prepare

@@ -1,10 +1,8 @@
-"""
-Main entry point for HumBLE Explorer.
-"""
+"""Main entry point for HumBLE Explorer."""
+from __future__ import annotations
 
 import sys
 from argparse import ArgumentParser, Namespace
-from typing import List
 
 from humble_explorer import __version__
 from humble_explorer.app import BLEScannerApp
@@ -20,15 +18,37 @@ __license__ = "MIT"
 # executable/script.
 
 
-def parse_args(args: List[str]) -> Namespace:
-    """Parse command line parameters
+def run() -> None:
+    """Calls :func:`main` passing the CLI arguments extracted from `sys.argv`.
+
+    This function can be used as entry point to create console scripts with setuptools.
+    """
+    main(sys.argv[1:])
+
+
+def main(args: list[str]) -> None:
+    """Wrapper allowing the BLE scanner app to be called on the command line.
+
+    This wrapper accepts string arguments.
 
     Args:
-      args (List[str]): command line parameters as list of strings
+      args (list[str]): command line parameters as list of strings
+          (for example  ``["--scanning-mode", "passive"]``).
+    """
+    cli_args = parse_args(args)
+    app = BLEScannerApp(cli_args=cli_args)
+    app.run()
+
+
+def parse_args(args: list[str]) -> Namespace:
+    """Parse command line parameters.
+
+    Args:
+      args (list[str]): command line parameters as list of strings
           (for example  ``["--help"]``).
 
     Returns:
-      :obj:`argparse.Namespace`: command line parameters namespace
+      `argparse.Namespace`: command line parameters namespace
     """
     parser = ArgumentParser(description="Human-friendly Bluetooth Low Energy Explorer")
     parser.add_argument(
@@ -49,27 +69,6 @@ def parse_args(args: List[str]) -> Namespace:
         choices=("active", "passive"),
     )
     return parser.parse_args(args)
-
-
-def main(args: List[str]) -> None:
-    """Wrapper allowing the BLE scanner app to be called with string arguments in a CLI
-    fashion.
-
-    Args:
-      args (List[str]): command line parameters as list of strings
-          (for example  ``["--scanning-mode", "passive"]``).
-    """
-    cli_args = parse_args(args)
-    app = BLEScannerApp(cli_args=cli_args)
-    app.run()
-
-
-def run() -> None:
-    """Calls :func:`main` passing the CLI arguments extracted from :obj:`sys.argv`
-
-    This function can be used as entry point to create console scripts with setuptools.
-    """
-    main(sys.argv[1:])
 
 
 if __name__ == "__main__":

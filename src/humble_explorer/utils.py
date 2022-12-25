@@ -10,7 +10,14 @@ shuffle(permutation_table)
 
 
 def hash8(message: str) -> int:
-    """Compute an 8-bit hash from the message with Pearson hashing."""
+    """Compute an 8-bit hash from the message with Pearson hashing.
+
+    Args:
+        message (str): The message to hash.
+
+    Returns:
+        int: An 8-bit hash value for `message`.
+    """
     # Source: https://en.wikipedia.org/wiki/Pearson_hashing
     hash_value = len(message) % 256
     for i in message:

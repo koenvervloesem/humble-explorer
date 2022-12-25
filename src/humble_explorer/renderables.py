@@ -1,9 +1,8 @@
-"""This module contains Rich renderables that are part of HumBLE Explorer's user
-interface.
-"""
+"""Module with Rich renderables for HumBLE Explorer's user interface."""
+from __future__ import annotations
+
 from datetime import datetime
 from string import printable, whitespace
-from typing import Dict, Optional
 from uuid import UUID
 
 from bleak.backends.scanner import AdvertisementData
@@ -25,10 +24,18 @@ PRINTABLE_CHARS = printable.replace(whitespace, " ")
 
 
 class RichTime:
-    """Rich renderable that shows a time. All times within the same second
-    are rendered in the same color."""
+    """Rich renderable that shows a time.
 
-    def __init__(self, time: datetime, style: Optional[Style] = None) -> None:
+    All times within the same second are rendered in the same color.
+    """
+
+    def __init__(self, time: datetime, style: Style | None = None) -> None:
+        """Create a RichTime object.
+
+        Args:
+            time (datetime): The time to show.
+            style (Style): The Rich style to use.
+        """
         self.full_time = time.strftime("%H:%M:%S.%f")
         if style:
             self.style = style
@@ -38,18 +45,35 @@ class RichTime:
             )
 
     def __rich__(self) -> Text:
+        """Render the RichTime object.
+
+        Returns:
+            Text: The rendering of the RichTime object.
+        """
         return Text(self.full_time, style=self.style)
 
 
 class RichDeviceAddress:
-    """Rich renderable that shows a Bluetooth device address. Every address is rendered
-    in its own color."""
+    """Rich renderable that shows a Bluetooth device address.
+
+    Every address is rendered in its own color.
+    """
 
     def __init__(self, address: str) -> None:
+        """Create a RichDeviceAddress object.
+
+        Args:
+            address (str): The address to show.
+        """
         self.address = address
         self.style = Style(color=EIGHT_BIT_PALETTE[hash8(self.address)].hex)
 
     def __rich__(self) -> Text:
+        """Render the RichDeviceAddress object.
+
+        Returns:
+            Text: The rendering of the RichDeviceAddress object.
+        """
         return Text(self.address, style=self.style)
 
 
@@ -57,9 +81,19 @@ class RichRSSI:
     """Rich renderable that shows RSSI of a device."""
 
     def __init__(self, rssi: int) -> None:
+        """Create a RichRSSI object.
+
+        Args:
+            rssi (int): The RSSI to show.
+        """
         self.rssi = rssi
 
     def __rich__(self) -> Text:
+        """Render the RichRSSI object.
+
+        Returns:
+            Text: The rendering of the RichRSSI object.
+        """
         return Text.assemble((str(self.rssi), "green bold"), " dBm")
 
 
@@ -67,9 +101,19 @@ class RichUUID:
     """Rich renderable that shows a UUID with description and colors."""
 
     def __init__(self, uuid128: str) -> None:
+        """Create a RichUUID object.
+
+        Args:
+            uuid128 (str): The UUID to show.
+        """
         self.uuid128 = uuid128
 
     def __rich__(self) -> Text:
+        """Render the RichUUID object.
+
+        Returns:
+            Text: The rendering of the RichUUID object.
+        """
         # Colorize the 16-bit UUID part in a standardized 128-bit UUID.
         if self.uuid128.startswith("0000") and self.uuid128.endswith(
             "-0000-1000-8000-00805f9b34fb"
@@ -92,9 +136,19 @@ class RichCompanyID:
     """Rich renderable that shows company ID and name."""
 
     def __init__(self, cic: int) -> None:
+        """Create a RichCompanyID object.
+
+        Args:
+            cic (int): The company ID to show.
+        """
         self.cic = cic
 
     def __rich__(self) -> Text:
+        """Render the RichCompanyID object.
+
+        Returns:
+            Text: The rendering of the RichCompanyID object.
+        """
         try:
             manufacturer_name = company[self.cic]
         except UnknownCICError:
@@ -109,9 +163,19 @@ class RichHexData:
     """Rich renderable that shows hex data."""
 
     def __init__(self, data: bytes) -> None:
+        """Create a RichHexData object.
+
+        Args:
+            data (bytes): The hex data to show.
+        """
         self.data = data
 
     def __rich__(self) -> Text:
+        """Render the RichHexData object.
+
+        Returns:
+            Text: The rendering of the RichHexData object.
+        """
         # Python 3.7 doesn't have sep parameter for bytes.hex()
         hex_data_str = self.data.hex()
         hex_data = " ".join(
@@ -121,13 +185,25 @@ class RichHexData:
 
 
 class RichHexString:
-    """Rich renderable that shows hex data as a string with non-printable characters
-    replaced by a dot."""
+    """Rich renderable that shows hex data as a string.
+
+    Non-printable characters are replaced by a dot.
+    """
 
     def __init__(self, data: bytes) -> None:
+        """Create a RichHexString object.
+
+        Args:
+            data (bytes): The hex data to show.
+        """
         self.data = data
 
     def __rich__(self) -> str:
+        """Render the RichHexString object.
+
+        Returns:
+            Text: The rendering of the RichHexString object.
+        """
         result = []
         for byte in self.data:
             char = chr(byte)
@@ -142,11 +218,39 @@ class RichHexString:
 class RichAdvertisement:
     """Rich renderable that shows advertisement data."""
 
-    def __init__(self, data: AdvertisementData, show_data: Dict[str, bool]) -> None:
+    def __init__(self, data: AdvertisementData, show_data: dict[str, bool]) -> None:
+        """Create a RichAdvertisement object.
+
+        Args:
+            data (AdvertisementData): The advertisement data to show.
+            show_data (dict[str, bool]): Which data to show.
+        """
         self.data = data
         self.show_data = show_data
 
+    def height(self) -> int:
+        """Return the number of lines this Rich renderable uses."""
+        height = 0
+        if self.data.local_name and self.show_data["local_name"]:
+            height += 1
+        if self.data.rssi and self.show_data["rssi"]:
+            height += 1
+        if self.data.tx_power and self.show_data["tx_power"]:
+            height += 1
+        if self.data.manufacturer_data and self.show_data["manufacturer_data"]:
+            height = height + 1 + 3 * len(self.data.manufacturer_data)
+        if self.data.service_data and self.show_data["service_data"]:
+            height = height + 1 + 3 * len(self.data.service_data)
+        if self.data.service_uuids and self.show_data["service_uuids"]:
+            height = height + 1 + len(self.data.service_uuids)
+        return height  # noqa: R504
+
     def __rich__(self) -> Table:
+        """Render the RichAdvertisement object.
+
+        Returns:
+            Table: The rendering of the RichAdvertisement object.
+        """
         table = Table(show_header=False, show_edge=False, padding=0)
 
         # Show local name
@@ -203,20 +307,3 @@ class RichAdvertisement:
             table.add_row(tree)
 
         return table
-
-    def height(self) -> int:
-        """Return the number of lines this Rich renderable uses."""
-        height = 0
-        if self.data.local_name and self.show_data["local_name"]:
-            height += 1
-        if self.data.rssi and self.show_data["rssi"]:
-            height += 1
-        if self.data.tx_power and self.show_data["tx_power"]:
-            height += 1
-        if self.data.manufacturer_data and self.show_data["manufacturer_data"]:
-            height = height + 1 + 3 * len(self.data.manufacturer_data)
-        if self.data.service_data and self.show_data["service_data"]:
-            height = height + 1 + 3 * len(self.data.service_data)
-        if self.data.service_uuids and self.show_data["service_uuids"]:
-            height = height + 1 + len(self.data.service_uuids)
-        return height

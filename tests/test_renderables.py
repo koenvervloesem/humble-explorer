@@ -1,3 +1,4 @@
+"""Tests for renderables module."""
 from datetime import datetime
 
 from rich.text import Span, Text
@@ -17,7 +18,7 @@ __copyright__ = "Koen Vervloesem"
 __license__ = "MIT"
 
 
-def test_time():
+def test_time() -> None:
     """Test RichTime class."""
     time1 = RichTime(datetime.now())
     time2 = RichTime(datetime.now())
@@ -29,7 +30,7 @@ def test_time():
     assert time1.style == time2.style
 
 
-def test_device_address():
+def test_device_address() -> None:
     """Test RichDeviceAddress class."""
     address_string = "D5:FE:15:49:AC:7D"
     device_address = RichDeviceAddress(address_string)
@@ -40,7 +41,7 @@ def test_device_address():
     assert device_address.style == device_address2.style
 
 
-def test_rssi():
+def test_rssi() -> None:
     """Test RichRSSI class."""
     rssi = RichRSSI(-70)
 
@@ -48,7 +49,7 @@ def test_rssi():
     assert rssi.__rich__() == Text.assemble(("-70", "green bold"), " dBm")
 
 
-def test_uuid():
+def test_uuid() -> None:
     """Test RichUUID class."""
     # Unknown UUID should be rendered without color
     unknown_uuid = "22110000-554a-4546-5542-46534450464d"
@@ -66,7 +67,7 @@ def test_uuid():
     )
 
 
-def test_company_id():
+def test_company_id() -> None:
     """Test RichCompanyID class."""
     # Company name should be colored
     ruuvi_cid = 0x0499
@@ -77,7 +78,7 @@ def test_company_id():
     )
 
 
-def test_hex_data():
+def test_hex_data() -> None:
     """Test RichHexData class."""
     # Hex data should be colored and with space separator between bytes
     data = b"\x03\x4e\x11\x23\xca\x2e\xff\xaa\xff\xd1\x03\xe7\x0b\xb9"
@@ -87,7 +88,7 @@ def test_hex_data():
     assert RichHexData(data).__rich__().style == "cyan bold"
 
 
-def test_hex_string():
+def test_hex_string() -> None:
     """Test RichHexString class."""
     # Hex string should show the correct characters with space separator between bytes
     data = b"\x03\x4e\x11\x23\xca\x2e\xff\xaa\xff\xd1\x03\xe7\x0b\xb9"
