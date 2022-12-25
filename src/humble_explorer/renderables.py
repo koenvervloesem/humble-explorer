@@ -112,7 +112,12 @@ class RichHexData:
         self.data = data
 
     def __rich__(self) -> Text:
-        return Text(f"{self.data.hex(sep= ' ')}", style="cyan bold")
+        # Python 3.7 doesn't have sep parameter for bytes.hex()
+        hex_data_str = self.data.hex()
+        hex_data = " ".join(
+            a + b for a, b in zip(hex_data_str[::2], hex_data_str[1::2])
+        )
+        return Text(hex_data, style="cyan bold")
 
 
 class RichHexString:
