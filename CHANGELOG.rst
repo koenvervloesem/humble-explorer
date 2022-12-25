@@ -2,8 +2,20 @@
 Changelog
 =========
 
-Version 0.3.2 (2022-12-23)
-==========================
+Version 0.3.3: Python 3.7 works! (2022-12-25)
+=============================================
+
+This is a bugfix release. The most visible fix is for a bug that let HumBLE Explorer fail on Python 3.7.
+
+Fixes
+-----
+
+* Minor code style fixes by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/30
+* Run tests with the correct Python version in CI by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/31
+* Fix byte separator in RichHexData by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/32
+
+Version 0.3.2: macOS works! (2022-12-23)
+========================================
 
 This is a bugfix release. The most important fix is that HumBLE Explorer now finally works on macOS too.
 
