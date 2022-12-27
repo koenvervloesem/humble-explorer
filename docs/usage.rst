@@ -69,6 +69,8 @@ If you press the **F** key, an input widget appears where you can start typing a
 
 When you click outside the filter widget or press **Tab** to bring the focus to the next visible widget, the filter widget disappears, but the filter is still applied to limit the shown advertisements. Just press **F** again to change the filter, for instance by removing the filter with **Backspace** or changing the Bluetooth address part to filter on.
 
+The number of filtered and received advertisements are always shown in the app's title.
+
 Changing settings
 -----------------
 
@@ -77,7 +79,7 @@ If you press the **S** key, you can choose which advertising data types are show
 Starting and stopping the scan
 ------------------------------
 
-If you press the **T** key, you stop the scan if it's running and you start the scan if it's stopped.
+If you press the **T** key, you stop the scan if it's running and you start the scan if it's stopped. The scanning status is always shown in the app's title.
 
 When the scan is running and autoscrolling is enabled in the settings, the program continuously scrolls the table with advertisements so you are always seeing the most recent results. When the scan isn't running or autoscrolling is disabled, you can scroll through the history of received advertisements with the scroll wheel, by dragging the scroll bar, or by pressing **PgUp**, **PgDown** or the arrow keys up and down when the table widget is focused.
 

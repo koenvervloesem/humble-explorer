@@ -29,20 +29,16 @@ class RichTime:
     All times within the same second are rendered in the same color.
     """
 
-    def __init__(self, time: datetime, style: Style | None = None) -> None:
+    def __init__(self, time: datetime) -> None:
         """Create a RichTime object.
 
         Args:
             time (datetime): The time to show.
-            style (Style): The Rich style to use.
         """
         self.full_time = time.strftime("%H:%M:%S.%f")
-        if style:
-            self.style = style
-        else:
-            self.style = Style(
-                color=EIGHT_BIT_PALETTE[hash8(time.strftime("%H:%M:%S"))].hex
-            )
+        self.style = Style(
+            color=EIGHT_BIT_PALETTE[hash8(time.strftime("%H:%M:%S"))].hex
+        )
 
     def __rich__(self) -> Text:
         """Render the RichTime object.
