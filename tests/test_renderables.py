@@ -51,31 +51,40 @@ def test_rssi() -> None:
 
 def test_uuid() -> None:
     """Test RichUUID class."""
-    # Unknown UUID should be rendered without color
+    # Unknown UUID should be rendered without color but with "Unknown" in red
     unknown_uuid = "22110000-554a-4546-5542-46534450464d"
-    assert str(RichUUID(unknown_uuid).__rich__()) == f"{unknown_uuid} (Unknown)"
+    unknown_rich_uuid = RichUUID(unknown_uuid).__rich__()
+    assert str(unknown_rich_uuid) == f"{unknown_uuid} (Unknown)"
+    assert {Span(0, 36, ""), Span(38, 45, "red bold")} <= set(unknown_rich_uuid.spans)
 
-    # 16-bit UUID part in a standardized 128-bit UUID should be colored
+    # 16-bit UUID part in a standardized 128-bit UUID should be colored,
+    # as well as the service name
     environmental_sensing_uuid = "0000181a-0000-1000-8000-00805f9b34fb"
+    environmental_sensing_rich_uuid = RichUUID(environmental_sensing_uuid).__rich__()
     assert (
-        str(RichUUID(environmental_sensing_uuid).__rich__())
+        str(environmental_sensing_rich_uuid)
         == "0000181a-0000-1000-8000-00805f9b34fb (Environmental Sensing)"
     )
-    assert (
-        Span(4, 8, "green bold")
-        in RichUUID(environmental_sensing_uuid).__rich__().spans
-    )
+    assert {
+        Span(0, 36, ""),
+        Span(4, 8, "green bold"),
+        Span(38, 59, "green bold"),
+    } <= set(environmental_sensing_rich_uuid.spans)
 
 
 def test_company_id() -> None:
     """Test RichCompanyID class."""
-    # Company name should be colored
+    # Unknown CID should have "Unknown" colored in red
+    unknown_cid = 0xD1C2
+    unknown_rich_cid = RichCompanyID(unknown_cid).__rich__()
+    assert str(unknown_rich_cid) == "0xd1c2 (Unknown)"
+    assert Span(8, 15, "red bold") in unknown_rich_cid.spans
+
+    # Company name for a known CID should be colored in red
     ruuvi_cid = 0x0499
-    assert str(RichCompanyID(ruuvi_cid).__rich__()) == "0x0499 (Ruuvi Innovations Ltd.)"
-    assert (
-        Span(8, len(str(RichCompanyID(ruuvi_cid).__rich__())) - 1, "green bold")
-        in RichCompanyID(ruuvi_cid).__rich__().spans
-    )
+    ruuvi_rich_cid = RichCompanyID(ruuvi_cid).__rich__()
+    assert str(ruuvi_rich_cid) == "0x0499 (Ruuvi Innovations Ltd.)"
+    assert Span(8, 30, "green bold") in ruuvi_rich_cid.spans
 
 
 def test_hex_data() -> None:
