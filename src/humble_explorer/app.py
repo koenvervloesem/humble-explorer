@@ -8,7 +8,6 @@ from platform import system
 from bleak import BleakScanner
 from bleak.backends.device import BLEDevice
 from bleak.backends.scanner import AdvertisementData
-from rich.style import Style
 from textual.app import App, ComposeResult
 from textual.reactive import reactive
 from textual.widgets import Checkbox, DataTable, Footer, Header, Input
@@ -26,8 +25,6 @@ from . import __version__
 __author__ = "Koen Vervloesem"
 __copyright__ = "Koen Vervloesem"
 __license__ = "MIT"
-
-_PAUSE_STYLE = Style(color="red", bgcolor="grey50")
 
 
 class BLEScannerApp(App[None]):
@@ -83,13 +80,16 @@ class BLEScannerApp(App[None]):
 
         super().__init__()
 
-    def set_title(self, scanning_description: str) -> None:
-        """Set the title of the app with a description of the scanning status.
+    def set_title(self) -> None:
+        """Set the title of the app with a description of the scanning status."""
+        if self.scanning:
+            scanning_description = "Scanning"
+        else:
+            scanning_description = "Stopped"
 
-        Args:
-            scanning_description (str): Description of the scanning status.
-        """
-        self.title = f"HumBLE Explorer {__version__} ({scanning_description})"
+        shown_advertisements = self.query_one(DataTable).row_count
+        all_advertisements = len(self.advertisements)
+        self.title = f"HumBLE Explorer {__version__} - {shown_advertisements} / {all_advertisements} ({scanning_description})"
 
     def action_toggle_settings(self) -> None:
         """Enable or disable settings widget."""
@@ -256,17 +256,18 @@ class BLEScannerApp(App[None]):
             )
             self.scroll_if_autoscroll()
 
+        # Always update the title: the total number of advertisements also changes if
+        # the advertisement isn't shown.
+        self.set_title()
+
     async def start_scan(self) -> None:
         """Start BLE scan."""
         self.scanning = True
-        self.set_title("Scanning")
+        self.set_title()
         await self.scanner.start()
 
     async def stop_scan(self) -> None:
         """Stop BLE scan."""
         self.scanning = False
-        self.set_title("Stopped")
+        self.set_title()
         await self.scanner.stop()
-        table = self.query_one(DataTable)
-        table.add_row(RichTime(datetime.now(), style=_PAUSE_STYLE))
-        self.scroll_if_autoscroll()
