@@ -127,9 +127,11 @@ class RichUUID:
             colored_uuid = Text(self.uuid128)
 
         try:
-            return Text.assemble(colored_uuid, f" ({service[UUID(self.uuid128)]})")
+            service_name = (service[UUID(self.uuid128)], "green bold")
         except UnknownUUIDError:
-            return Text.assemble(colored_uuid, " (Unknown)")
+            service_name = ("Unknown", "red bold")
+
+        return Text.assemble(colored_uuid, " (", service_name, ")")
 
 
 class RichCompanyID:
@@ -150,13 +152,11 @@ class RichCompanyID:
             Text: The rendering of the RichCompanyID object.
         """
         try:
-            manufacturer_name = company[self.cic]
+            manufacturer_name = (company[self.cic], "green bold")
         except UnknownCICError:
-            manufacturer_name = "Unknown"
+            manufacturer_name = ("Unknown", "red bold")
 
-        return Text.assemble(
-            f"0x{self.cic:04x} (", (manufacturer_name, "green bold"), ")"
-        )
+        return Text.assemble(f"0x{self.cic:04x} (", manufacturer_name, ")")
 
 
 class RichHexData:
