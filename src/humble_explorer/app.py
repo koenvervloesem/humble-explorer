@@ -252,7 +252,7 @@ class BLEScannerApp(App[None]):
                 now,
                 device_address,
                 rich_advertisement,
-                height=rich_advertisement.height(),
+                height=max(device_address.height(), rich_advertisement.height()),
             )
             self.scroll_if_autoscroll()
 

@@ -36,9 +36,19 @@ def test_device_address() -> None:
     device_address = RichDeviceAddress(address_string)
     device_address2 = RichDeviceAddress(address_string)
     assert str(device_address.__rich__()) == address_string
+    assert device_address.height() == 1
 
     # Devices with the same address should have the same color
     assert device_address.style == device_address2.style
+
+    # Address with known OUI should show company description
+    address_string_qingping = "58:2D:34:54:2D:2C"
+    full_address_string_qingping = (
+        "58:2D:34:54:2D:2C\nQingping Electronics (Suzhou) Co., Ltd"
+    )
+    device_address_qingping = RichDeviceAddress(address_string_qingping)
+    assert str(device_address_qingping.__rich__()) == full_address_string_qingping
+    assert device_address_qingping.height() == 2
 
 
 def test_rssi() -> None:
