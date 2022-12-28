@@ -6,8 +6,13 @@ from string import printable, whitespace
 from uuid import UUID
 
 from bleak.backends.scanner import AdvertisementData
-from bluetooth_numbers import company, service
-from bluetooth_numbers.exceptions import UnknownCICError, UnknownUUIDError
+from bluetooth_numbers import company, oui, service
+from bluetooth_numbers.exceptions import (
+    UnknownCICError,
+    UnknownOUIError,
+    UnknownUUIDError,
+    WrongOUIFormatError,
+)
 from rich._palettes import EIGHT_BIT_PALETTE
 from rich.style import Style
 from rich.table import Table
@@ -50,7 +55,7 @@ class RichTime:
 
 
 class RichDeviceAddress:
-    """Rich renderable that shows a Bluetooth device address.
+    """Rich renderable that shows a Bluetooth device address aand OUI description.
 
     Every address is rendered in its own color.
     """
@@ -63,6 +68,18 @@ class RichDeviceAddress:
         """
         self.address = address
         self.style = Style(color=EIGHT_BIT_PALETTE[hash8(self.address)].hex)
+        try:
+            self.oui = oui[self.address[:8]]
+        except (UnknownOUIError, WrongOUIFormatError):
+            # This could be macOS that returns a UUID instead of Bluetooth address
+            self.oui = ""
+
+    def height(self) -> int:
+        """Return the number of lines this Rich renderable uses."""
+        height = 1
+        if self.oui:
+            height += 1
+        return height  # noqa: R504
 
     def __rich__(self) -> Text:
         """Render the RichDeviceAddress object.
@@ -70,6 +87,9 @@ class RichDeviceAddress:
         Returns:
             Text: The rendering of the RichDeviceAddress object.
         """
+        if self.oui:
+            return Text.assemble(Text(self.address, style=self.style), f"\n{self.oui}")
+
         return Text(self.address, style=self.style)
 
 
