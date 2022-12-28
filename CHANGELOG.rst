@@ -2,6 +2,26 @@
 Changelog
 =========
 
+Version 0.4.0: Minor user interface improvements (2022-12-28)
+=============================================================
+
+This release adds some minor user interface improvements. The description **Unknown** for unknown company IDs and UUIDs is now shown in red. If the Bluetooth address has a known OUI, the vendor name is shown. And the number of filtered and received advertisements is now shown in the title.
+
+The documentation now also tells what to do if you want to contribute descriptions for unknown UUIDs. You can contribute these to the `bluetooth-numbers <https://github.com/koenvervloesem/bluetooth-numbers>`_ project.
+
+New features
+------------
+
+* Color "Unknown" in red for company IDs and UUIDs by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/35
+* Put the number of shown (filtered) and received advertisements in title by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/36
+* Show vendor of Bluetooth address if it has a known OUI by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/37
+
+Miscellaneous
+-------------
+
+* Adds and updates pre-commit hooks by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/34
+* Add documentation about contributing data such as UUID descriptions by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/38
+
 Version 0.3.3: Python 3.7 works! (2022-12-25)
 =============================================
 
