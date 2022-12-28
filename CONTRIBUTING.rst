@@ -37,6 +37,19 @@ that still illustrates the problem you are facing. By removing other factors,
 you help us to identify the root cause of the issue.
 
 
+Contributions of data
+=====================
+
+HumBLE Explorer tries to show a human-friendly description for as much data as
+possible, such as descriptions of the UUIDs in Bluetooth advertisements. Not all
+UUIDs are known, however. If you see the program showing a UUID with the description
+**Unknown** and you know what the description should be, please contribute it to the
+`bluetooth-numbers <https://github.com/koenvervloesem/bluetooth-numbers>`_ project
+by opening an issue there. HumBLE Explorer uses the bluetooth-numbers library for its
+descriptions, and updating the bluetooth-numbers library with new descriptions will add
+them to HumBLE Explorer too.
+
+
 Documentation Improvements
 ==========================
 
