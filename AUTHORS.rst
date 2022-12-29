@@ -2,4 +2,4 @@
 Contributors
 ============
 
-* Koen Vervloesem <koen@vervloesem.eu>
+* `Koen Vervloesem <https://github.com/koenvervloesem/>`_
