@@ -28,7 +28,7 @@ repos:
 #       --remove-unused-variables,
 #     ]
 
-- repo: https://github.com/pycqa/isort
+- repo: https://github.com/PyCQA/isort
   rev: 5.11.4
   hooks:
   - id: isort
@@ -41,7 +41,7 @@ repos:
 
 ## If like to embrace black styles even in the docs:
 # - repo: https://github.com/asottile/blacken-docs
-#   rev: v1.12.0
+#   rev: v1.13.0
 #   hooks:
 #   - id: blacken-docs
 #     additional_dependencies: [black]
@@ -80,6 +80,11 @@ repos:
   hooks:
   - id: pyupgrade
     args: ["--py37-plus"]
+
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.2.2
+  hooks:
+  - id: codespell
 
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v0.991
