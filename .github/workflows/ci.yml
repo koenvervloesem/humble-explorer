@@ -28,14 +28,17 @@ jobs:
       - uses: actions/checkout@v3
         with: {fetch-depth: 0}  # deep clone for setuptools-scm
       - uses: actions/setup-python@v4
+        id: setup-python
         with: {python-version: "3.11"}
       - name: Run static analysis and format checkers
         run: pipx run pre-commit run --all-files --show-diff-on-failure
       - name: Build package distribution files
-        run: pipx run --spec tox==3.27.1 tox -e clean,build
+        run: >-
+          pipx run --python '${{ steps.setup-python.outputs.python-path }}'
+          tox -e clean,build
       - name: Record the path of wheel distribution
         id: wheel-distribution
-        run: echo "::set-output name=path::$(ls dist/*.whl)"
+        run: echo "path=$(ls dist/*.whl)" >> $GITHUB_OUTPUT
       - name: Store the distribution files for use in other stages
         # `tests` and `publish` will use the same pre-built distributions,
         # so we make sure to release the exact same package that was tested
@@ -53,7 +56,7 @@ jobs:
       - uses: actions/setup-python@v4
         with: {python-version: "3.11"}
       - name: Build docs and run doctests and linkcheck
-        run: pipx run --spec tox==3.27.1 tox -e clean,docs,doctests,linkcheck
+        run: pipx run tox -e clean,docs,doctests,linkcheck
 
   test:
     needs: prepare
@@ -83,13 +86,10 @@ jobs:
       - name: Run tests
         run: >-
           pipx run --python '${{ steps.setup-python.outputs.python-path }}'
-          --spec tox==3.27.1 tox
-          --installpkg '${{ needs.prepare.outputs.wheel-distribution }}'
-          -- -rFEx --durations 10 --color yes
+          tox --installpkg '${{ needs.prepare.outputs.wheel-distribution }}'
+          -- -rFEx --durations 10 --color yes  # pytest args
       - name: Generate coverage report
-        run: >-
-          pipx run --python '${{ steps.setup-python.outputs.python-path }}'
-          coverage lcov -o coverage.lcov
+        run: pipx run coverage lcov -o coverage.lcov
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v3
 
@@ -109,4 +109,4 @@ jobs:
           TWINE_REPOSITORY: pypi
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: pipx run --spec tox==3.27.1 tox -e publish
+        run: pipx run tox -e publish

@@ -49,7 +49,7 @@ For each advertisement, the program shows columns for:
 * **Address**: the device's Bluetooth address
 * **Advertisement**: the decoded contents of the Bluetooth Low Energy advertisement
 
-The first two colums are colored:
+The first two columns are colored:
 
 * Timestamps within the same second are shown in the same color.
 * The same Bluetooth address is always shown in the same color.

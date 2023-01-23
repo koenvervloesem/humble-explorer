@@ -293,7 +293,7 @@ HumBLE Explorer:
    of environments, including private companies and proprietary code bases.
 
 
-.. <-- strart -->
+.. <-- start -->
 .. |the repository service| replace:: GitHub
 .. |contribute button| replace:: "Create pull request"
 
