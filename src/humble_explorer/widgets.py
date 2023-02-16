@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from textual.app import ComposeResult
 from textual.containers import Horizontal
-from textual.widgets import Checkbox, Input, Static
+from textual.widgets import Input, Static, Switch
 
 __author__ = "Koen Vervloesem"
 __copyright__ = "Koen Vervloesem"
@@ -40,42 +40,42 @@ class SettingsWidget(Static):
         self.display = False
 
     def compose(self) -> ComposeResult:
-        """Show checkboxes."""
+        """Show switches."""
         yield Static("[b]Show data types[/b]\n")
         yield Horizontal(
             Static("Local name       ", classes="label"),
-            Checkbox(value=True, id="local_name", classes="view"),
+            Switch(value=True, id="local_name", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("RSSI             ", classes="label"),
-            Checkbox(value=True, id="rssi", classes="view"),
+            Switch(value=True, id="rssi", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("TX power         ", classes="label"),
-            Checkbox(value=True, id="tx_power", classes="view"),
+            Switch(value=True, id="tx_power", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("Manufacturer data", classes="label"),
-            Checkbox(value=True, id="manufacturer_data", classes="view"),
+            Switch(value=True, id="manufacturer_data", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("Service data     ", classes="label"),
-            Checkbox(value=True, id="service_data", classes="view"),
+            Switch(value=True, id="service_data", classes="view"),
             classes="container",
         )
         yield Horizontal(
             Static("Service UUIDs    ", classes="label"),
-            Checkbox(value=True, id="service_uuids", classes="view"),
+            Switch(value=True, id="service_uuids", classes="view"),
             classes="container",
         )
         yield Static("\n[b]Other settings[/b]\n")
         yield Horizontal(
             Static("Auto-scroll      ", classes="label"),
-            Checkbox(value=True, id="autoscroll", classes="view"),
+            Switch(value=True, id="autoscroll", classes="view"),
             classes="container",
         )
 
