@@ -2,6 +2,17 @@
 Changelog
 =========
 
+Version 0.4.1: Switch to switches (203-02-16)
+=============================================
+
+This is a bugfix release for a breaking change in Textual 0.11.0.
+
+* Add GitHub profile to authors page by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/40
+* Update pyscaffold v4.4 by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/45
+* Use furo theme for documentation by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/46
+* Autoupdate pre-commit by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/47
+* Change Checkbox to Switch for Textual 0.11.0 by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/48
+
 Version 0.4.0: Minor user interface improvements (2022-12-28)
 =============================================================
 
