@@ -10,7 +10,7 @@ from bleak.backends.device import BLEDevice
 from bleak.backends.scanner import AdvertisementData
 from textual.app import App, ComposeResult
 from textual.reactive import reactive
-from textual.widgets import Checkbox, DataTable, Footer, Header, Input
+from textual.widgets import DataTable, Footer, Header, Input, Switch
 
 if system() == "Linux":
     from bleak.assigned_numbers import AdvertisementDataType
@@ -135,12 +135,12 @@ class BLEScannerApp(App[None]):
                 type should be shown and ``False`` if not.
         """
         return {
-            "local_name": self.query_one("#local_name", Checkbox).value,
-            "rssi": self.query_one("#rssi", Checkbox).value,
-            "tx_power": self.query_one("#tx_power", Checkbox).value,
-            "manufacturer_data": self.query_one("#manufacturer_data", Checkbox).value,
-            "service_data": self.query_one("#service_data", Checkbox).value,
-            "service_uuids": self.query_one("#service_uuids", Checkbox).value,
+            "local_name": self.query_one("#local_name", Switch).value,
+            "rssi": self.query_one("#rssi", Switch).value,
+            "tx_power": self.query_one("#tx_power", Switch).value,
+            "manufacturer_data": self.query_one("#manufacturer_data", Switch).value,
+            "service_data": self.query_one("#service_data", Switch).value,
+            "service_uuids": self.query_one("#service_uuids", Switch).value,
         }
 
     async def on_advertisement(
@@ -179,15 +179,15 @@ class BLEScannerApp(App[None]):
         self.scanner = BleakScanner(**self.scanner_kwargs)
         await self.start_scan()
 
-    def on_checkbox_changed(self, message: Checkbox.Changed) -> None:
-        """React when the checkbox is ticked or unticked.
+    def on_switch_changed(self, message: Switch.Changed) -> None:
+        """React when the switch is ticked or unticked.
 
         Show or hide advertisement data depending on the state of
-        the checkboxes.
+        the switches.
 
         Args:
-            message (textual.widgets.Checkbox.Changed): The message with the changed
-                checkbox.
+            message (textual.widgets.Switch.Changed): The message with the changed
+                switch.
         """
         if "view" in message.input.classes:
             self.recreate_table()
@@ -229,7 +229,7 @@ class BLEScannerApp(App[None]):
 
     def scroll_if_autoscroll(self) -> None:
         """Scroll to the end if autoscroll is enabled."""
-        if self.query_one("#autoscroll", Checkbox).value:
+        if self.query_one("#autoscroll", Switch).value:
             self.query_one(DataTable).scroll_end(animate=False)
 
     def add_advertisement_to_table(
