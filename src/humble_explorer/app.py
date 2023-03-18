@@ -189,7 +189,7 @@ class BLEScannerApp(App[None]):
             message (textual.widgets.Switch.Changed): The message with the changed
                 switch.
         """
-        if "view" in message.input.classes:
+        if "view" in message.switch.classes:
             self.recreate_table()
 
     def on_input_changed(self, message: Input.Changed) -> None:
@@ -231,6 +231,7 @@ class BLEScannerApp(App[None]):
         """Scroll to the end if autoscroll is enabled."""
         if self.query_one("#autoscroll", Switch).value:
             self.query_one(DataTable).scroll_end(animate=False)
+            self.query_one(DataTable).refresh()
 
     def add_advertisement_to_table(
         self,
