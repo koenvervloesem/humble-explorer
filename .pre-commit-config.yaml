@@ -93,7 +93,7 @@ repos:
     entry: env MYPYPATH=src mypy
     args: []
     additional_dependencies:
-    - bleak
+    - bleak>=0.20.0
     - bluetooth-numbers
     - rich
     - textual>=0.14.0
