@@ -2,7 +2,22 @@
 Changelog
 =========
 
-Version 0.4.1: Switch to switches (203-02-16)
+Version 0.5.0: Bluetooth addresses on macOS (2023-03-19)
+========================================================
+
+On macOS, users normally don't get access to the Bluetooth addresses of devices, but to a UUID. This release adds the ``-m`` option to get the actual Bluetooth address.
+
+New features
+------------
+
+* Add option to access Bluetooth addresses on macOS by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/51
+
+Fixes
+-----
+
+* Fix for Textual 0.14 by @koenvervloesem in https://github.com/koenvervloesem/humble-explorer/pull/50
+
+Version 0.4.1: Switch to switches (2023-02-16)
 =============================================
 
 This is a bugfix release for a breaking change in Textual 0.11.0.
