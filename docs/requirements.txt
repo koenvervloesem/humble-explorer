@@ -1,7 +1,7 @@
 # Requirements file for ReadTheDocs, check .readthedocs.yml.
 # To build the module reference correctly, make sure every external package
 # under `install_requires` in `setup.cfg` is also listed here!
-bleak>=0.19.0
+bleak>=0.20.0
 bluetooth-numbers>=1.0.0,<2.0
 furo
 sphinx>=3.2.1

@@ -30,10 +30,14 @@ You can find all command-line arguments by running HumBLE Explorer with the ``--
                           Bluetooth adapter (e.g. hci1 on Linux)
     -s {active,passive}, --scanning-mode {active,passive}
                           Scanning mode (default: active)
+    -m, --macos-use-address
+                          Use Bluetooth address instead of UUID on macOS
 
 By default, HumBLE Explorer scans for BLE advertisements using your operating system's default Bluetooth adapter. You can change this with the ``-a ADAPTER`` option.
 
 Also, by default HumBLE Explorer does *active scanning*. For every device the program finds, it requests extra information, with a ``SCAN_REQ`` packet directed at that device. The addressed device responds with a ``SCAN_RSP`` advertisement, which is also called *scan response data*. What data is returned for a ``SCAN_RSP`` packet depends on the type of device. It could be its device name, or manufacturer-specific data, or something else. If you want HumBLE Explorer to use *passive scanning*, use the ``-s passive`` option. The program then doesn't send ``SCAN_REQ`` packets, so devices don't respond with scan response data.
+
+On macOS, users normally don't get access to the Bluetooth addresses of devices, but to a UUID. With the `-m` option, you get the actual Bluetooth address.
 
 User interface
 --------------

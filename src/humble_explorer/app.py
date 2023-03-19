@@ -67,6 +67,8 @@ class BLEScannerApp(App[None]):
                 self.scanner_kwargs["bluez"] = BlueZScannerArgs(
                     filters={"DuplicateData": True}
                 )
+        elif system() == "Darwin":
+            self.scanner_kwargs["cb"] = {"use_bdaddr": cli_args.macos_use_address}
 
         # Configure Bluetooth adapter
         self.scanner_kwargs["adapter"] = cli_args.adapter

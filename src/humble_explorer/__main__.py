@@ -68,6 +68,13 @@ def parse_args(args: list[str]) -> Namespace:
         default="active",
         choices=("active", "passive"),
     )
+    parser.add_argument(
+        "-m",
+        "--macos-use-address",
+        action="store_true",
+        help="Use Bluetooth address instead of UUID on macOS",
+    )
+
     return parser.parse_args(args)
 
 
