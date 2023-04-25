@@ -48,7 +48,7 @@ def test_device_address() -> None:
     )
     device_address_qingping = RichDeviceAddress(address_string_qingping)
     assert str(device_address_qingping.__rich__()) == full_address_string_qingping
-    assert device_address_qingping.height() == 2
+    assert device_address_qingping.height() == 2  # noqa: PLR2004
 
 
 def test_rssi() -> None:

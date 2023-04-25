@@ -7,3 +7,25 @@ build-backend = "setuptools.build_meta"
 # For smarter version schemes and other configuration options,
 # check out https://github.com/pypa/setuptools_scm
 version_scheme = "no-guess-dev"
+
+[tool.ruff]
+select = ["ALL"]
+ignore = [
+  "ANN101",  # flake8-annotations
+  "ARG002",  # flake8-unused-arguments
+  "DTZ005",  # flake8-datetimez
+  "T20",     # flake8-print
+]
+# Always generate Python 3.7-compatible code
+target-version = "py37"
+
+src = ["src", "test", "setup.py"]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = [
+  "INP001",  # implicit namespace
+  "S101",    # assert
+]
+
+[tool.ruff.pydocstyle]
+convention = "google"

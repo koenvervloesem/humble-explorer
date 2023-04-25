@@ -1,13 +1,18 @@
 """Module with the Textual app that scans for Bluetooth Low Energy advertisements."""
 from __future__ import annotations
 
-from argparse import Namespace
 from datetime import datetime
 from platform import system
+from typing import TYPE_CHECKING
 
 from bleak import BleakScanner
-from bleak.backends.device import BLEDevice
-from bleak.backends.scanner import AdvertisementData
+
+if TYPE_CHECKING:
+    from argparse import Namespace
+
+    from bleak.backends.device import BLEDevice
+    from bleak.backends.scanner import AdvertisementData
+
 from textual.app import App, ComposeResult
 from textual.reactive import reactive
 from textual.widgets import DataTable, Footer, Header, Input, Switch
@@ -59,13 +64,13 @@ class BLEScannerApp(App[None]):
                     or_patterns=[
                         OrPattern(0, AdvertisementDataType.FLAGS, b"\x06"),
                         OrPattern(0, AdvertisementDataType.FLAGS, b"\x1a"),
-                    ]
+                    ],
                 )
             elif cli_args.scanning_mode == "active":
                 # Disable duplicate detection of advertisement data
                 # for a more low-level view of what packets are really sent.
                 self.scanner_kwargs["bluez"] = BlueZScannerArgs(
-                    filters={"DuplicateData": True}
+                    filters={"DuplicateData": True},
                 )
         elif system() == "Darwin":
             self.scanner_kwargs["cb"] = {"use_bdaddr": cli_args.macos_use_address}
@@ -84,14 +89,11 @@ class BLEScannerApp(App[None]):
 
     def set_title(self) -> None:
         """Set the title of the app with a description of the scanning status."""
-        if self.scanning:
-            scanning_description = "Scanning"
-        else:
-            scanning_description = "Stopped"
+        scanning_description = "Scanning" if self.scanning else "Stopped"
 
         shown_advertisements = self.query_one(DataTable).row_count
         all_advertisements = len(self.advertisements)
-        self.title = f"HumBLE Explorer {__version__} - {shown_advertisements} / {all_advertisements} ({scanning_description})"
+        self.title = f"HumBLE Explorer {__version__} - {shown_advertisements} / {all_advertisements} ({scanning_description})"  # noqa: E501
 
     def action_toggle_settings(self) -> None:
         """Enable or disable settings widget."""
@@ -146,7 +148,9 @@ class BLEScannerApp(App[None]):
         }
 
     async def on_advertisement(
-        self, device: BLEDevice, advertisement_data: AdvertisementData
+        self,
+        device: BLEDevice,
+        advertisement_data: AdvertisementData,
     ) -> None:
         """Show advertisement data on detection of a BLE advertisement.
 
