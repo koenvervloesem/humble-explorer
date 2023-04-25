@@ -1,11 +1,15 @@
 """Module with Rich renderables for HumBLE Explorer's user interface."""
 from __future__ import annotations
 
-from datetime import datetime
 from string import printable, whitespace
+from typing import TYPE_CHECKING
 from uuid import UUID
 
-from bleak.backends.scanner import AdvertisementData
+if TYPE_CHECKING:
+    from datetime import datetime
+
+    from bleak.backends.scanner import AdvertisementData
+
 from bluetooth_numbers import company, oui, service
 from bluetooth_numbers.exceptions import (
     UnknownCICError,
@@ -42,7 +46,7 @@ class RichTime:
         """
         self.full_time = time.strftime("%H:%M:%S.%f")
         self.style = Style(
-            color=EIGHT_BIT_PALETTE[hash8(time.strftime("%H:%M:%S"))].hex
+            color=EIGHT_BIT_PALETTE[hash8(time.strftime("%H:%M:%S"))].hex,
         )
 
     def __rich__(self) -> Text:
@@ -79,7 +83,7 @@ class RichDeviceAddress:
         height = 1
         if self.oui:
             height += 1
-        return height  # noqa: R504
+        return height
 
     def __rich__(self) -> Text:
         """Render the RichDeviceAddress object.
@@ -132,7 +136,7 @@ class RichUUID:
         """
         # Colorize the 16-bit UUID part in a standardized 128-bit UUID.
         if self.uuid128.startswith("0000") and self.uuid128.endswith(
-            "-0000-1000-8000-00805f9b34fb"
+            "-0000-1000-8000-00805f9b34fb",
         ):
             colored_uuid = Text.assemble(
                 "0000",
@@ -259,7 +263,7 @@ class RichAdvertisement:
             height = height + 1 + 3 * len(self.data.service_data)
         if self.data.service_uuids and self.show_data["service_uuids"]:
             height = height + 1 + len(self.data.service_uuids)
-        return height  # noqa: R504
+        return height
 
     def __rich__(self) -> Table:
         """Render the RichAdvertisement object.
@@ -272,7 +276,7 @@ class RichAdvertisement:
         # Show local name
         if self.data.local_name and self.show_data["local_name"]:
             table.add_row(
-                Text.assemble("local name: ", (self.data.local_name, "green bold"))
+                Text.assemble("local name: ", (self.data.local_name, "green bold")),
             )
 
         # Show RSSI
@@ -282,7 +286,7 @@ class RichAdvertisement:
         # Show TX Power
         if self.data.tx_power and self.show_data["tx_power"]:
             table.add_row(
-                Text.assemble("TX power: ", RichRSSI(self.data.tx_power).__rich__())
+                Text.assemble("TX power: ", RichRSSI(self.data.tx_power).__rich__()),
             )
 
         # Show manufacturer data
@@ -291,14 +295,15 @@ class RichAdvertisement:
             for cic, value in self.data.manufacturer_data.items():
                 company_structure = Tree(
                     Text.assemble(
-                        RichCompanyID(cic).__rich__(), f" → {len(value)} bytes"
-                    )
+                        RichCompanyID(cic).__rich__(),
+                        f" → {len(value)} bytes",
+                    ),
                 )
                 company_structure.add(
-                    Text.assemble("hex  → ", RichHexData(value).__rich__())
+                    Text.assemble("hex  → ", RichHexData(value).__rich__()),
                 )
                 company_structure.add(
-                    Text.assemble("text → ", RichHexString(value).__rich__())
+                    Text.assemble("text → ", RichHexString(value).__rich__()),
                 )
                 tree.add(company_structure)
             table.add_row(tree)
@@ -308,7 +313,7 @@ class RichAdvertisement:
             tree = Tree("service data:")
             for uuid, value in self.data.service_data.items():
                 svc_uuid = Tree(
-                    Text.assemble(RichUUID(uuid).__rich__(), f" → {len(value)} bytes")
+                    Text.assemble(RichUUID(uuid).__rich__(), f" → {len(value)} bytes"),
                 )
                 svc_uuid.add(Text.assemble("hex  → ", RichHexData(value).__rich__()))
                 svc_uuid.add(Text.assemble("text → ", RichHexString(value).__rich__()))

@@ -17,22 +17,6 @@ repos:
   - id: mixed-line-ending
     args: ['--fix=auto']  # replace 'auto' with 'lf' to enforce Linux/Mac line endings or 'crlf' for Windows
 
-## If you want to avoid flake8 errors due to unused vars or imports:
-# - repo: https://github.com/myint/autoflake
-#   rev: v1.4
-#   hooks:
-#   - id: autoflake
-#     args: [
-#       --in-place,
-#       --remove-all-unused-imports,
-#       --remove-unused-variables,
-#     ]
-
-- repo: https://github.com/PyCQA/isort
-  rev: 5.12.0
-  hooks:
-  - id: isort
-
 - repo: https://github.com/psf/black
   rev: 23.1.0
   hooks:
@@ -46,40 +30,10 @@ repos:
 #   - id: blacken-docs
 #     additional_dependencies: [black]
 
-- repo: https://github.com/PyCQA/flake8
-  rev: 6.0.0
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.0.261
   hooks:
-  - id: flake8
-    additional_dependencies:
-    - flake8-bugbear
-    - pep8-naming
-    - flake8-length
-    - tryceratops
-    - flake8-return
-    - flake8-newspaper-style
-    - flake8-class-attributes-order
-    - flake8-encodings
-    - flake8-simplify
-    - flake8-pie
-    - flake8-comprehensions
-    - flake8-picky-parentheses
-    - flake8-async
-    # Documentation
-    - flake8-docstrings
-    - flake8-rst
-    - flake8-rst-docstrings
-    # Typing
-    - flake8-future-annotations
-    - flake8-annotations
-    - flake-type-annotations-plugin
-    # Tests
-    - flake8-pytest-style
-
-- repo: https://github.com/asottile/pyupgrade
-  rev: "v3.3.1"
-  hooks:
-  - id: pyupgrade
-    args: ["--py37-plus"]
+  - id: ruff
 
 - repo: https://github.com/codespell-project/codespell
   rev: v2.2.2

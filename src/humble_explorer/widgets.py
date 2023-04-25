@@ -1,7 +1,11 @@
 """This module contains Textual widgets for HumBLE Explorer's user interface."""
 from __future__ import annotations
 
-from textual.app import ComposeResult
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from textual.app import ComposeResult
+
 from textual.containers import Horizontal
 from textual.widgets import Input, Static, Switch
 
@@ -30,7 +34,7 @@ class FilterWidget(Input):
 class SettingsWidget(Static):
     """A Textual widget to let the user choose settings."""
 
-    def __init__(self, id: str | None) -> None:
+    def __init__(self, id: str | None) -> None:  # noqa: A002
         """Create new SettingsWidget.
 
         Args:
