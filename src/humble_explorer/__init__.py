@@ -3,16 +3,7 @@
 This is a cross-platform (Windows, Linux, macOS) human-friendly program to scan for
 Bluetooth Low Energy (BLE) advertisements on the command line.
 """
-from sys import version_info
-
-if version_info[:2] >= (3, 8):
-    # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`
-    from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
-else:  # pragma: no cover
-    from importlib_metadata import (  # type: ignore[assignment]
-        PackageNotFoundError,
-        version,
-    )
+from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
 
 try:
     # Change here if project is renamed and does not equal the package name
