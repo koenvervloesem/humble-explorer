@@ -48,7 +48,7 @@ repos:
     args: []
     additional_dependencies:
     - bleak>=0.20.0
-    - bluetooth-adapters>=0.15.3; python_version>="3.9"
+    - bluetooth-adapters>=0.16.1; python_version>="3.9"
     - bluetooth-numbers
     - rich
     - textual>=0.14.0

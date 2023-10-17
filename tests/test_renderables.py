@@ -65,7 +65,7 @@ def test_uuid() -> None:
     unknown_uuid = "22110000-554a-4546-5542-46534450464d"
     unknown_rich_uuid = RichUUID(unknown_uuid).__rich__()
     assert str(unknown_rich_uuid) == f"{unknown_uuid} (Unknown)"
-    assert {Span(0, 36, ""), Span(38, 45, "red bold")} <= set(unknown_rich_uuid.spans)
+    assert Span(38, 45, "red bold") in unknown_rich_uuid.spans
 
     # 16-bit UUID part in a standardized 128-bit UUID should be colored,
     # as well as the service name
@@ -76,7 +76,6 @@ def test_uuid() -> None:
         == "0000181a-0000-1000-8000-00805f9b34fb (Environmental Sensing)"
     )
     assert {
-        Span(0, 36, ""),
         Span(4, 8, "green bold"),
         Span(38, 59, "green bold"),
     } <= set(environmental_sensing_rich_uuid.spans)
